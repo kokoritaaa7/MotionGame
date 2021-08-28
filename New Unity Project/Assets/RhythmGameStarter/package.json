@@ -1,0 +1,12 @@
+{
+    "name": "com.bennykok.rhythm-core",
+    "displayName": "Rhythm Core",
+    "description": "Core of RhythmGameStarter",
+    "version": "0.10.0",
+    "dependencies": {},
+    "standard-version": {
+        "scripts": {
+            "postchangelog": "cd %AppData%\\npm\\node_modules & replace 'gitlab.com/BennyKok/rhythm-game-starter/' 'gitlab.com/BennyKok/rhythm-core/' CHANGELOG.md"
+        }
+    }
+}
