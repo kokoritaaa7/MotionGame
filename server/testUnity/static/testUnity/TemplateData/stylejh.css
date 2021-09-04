@@ -1,0 +1,32 @@
+.overlay {
+    width: 650px;
+    height: 600px;
+    background-image: url( "https://lh3.google.com/u/0/d/1p8C6_wUcKRNT4gV6y-SzlQHvUe8BGKYB=w1920-h902-iv1" );
+  }
+
+.star{
+    background: url("https://www.sciencetimes.co.kr/wp-content/uploads/2020/08/GettyImages-1219869455-scaled.jpg") no-repeat center/cover;
+    height: 1000px;
+    overflow: hidden;
+    position:relative;
+  }
+
+.unity-desktop1 {
+    left: 50%; 
+    top: 50%; 
+    transform: translate(5%, -150%);
+  }
+
+.output_canvas{
+    width: 500px;
+    height: 350px;
+    
+}
+
+.container-1{
+  transform: translate(10%, -180%);
+}
+
+.col-md-8{
+  padding: 0%;
+}
