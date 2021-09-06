@@ -17,7 +17,7 @@
 </head>
 
 <body>
-  <!-- unity 게임 화면 -->
+  <!-- unity 게임 화면 (절대좌표)-->
   <div id="unity-container" class="unity-desktop">
     <canvas id="unity-canvas" width=960 height=600></canvas>
     <div id="unity-loading-bar">
@@ -44,7 +44,12 @@
     <button id="btn_r">R 입력</button>
   </div>
 
-  <!-- 카메라 화면 -->
+  <!-- 모션인식 결과 표시 -->
+  <div id="motion_result" style="font-size: large; height: 50px;">
+    감지됨 : ?
+  </div>
+
+  <!-- 카메라 화면 (절대좌표)-->
   <div class="container" style="position: absolute; top: 50%; left: 5%;">
     <video class="input_video" height="0px" width="0px"></video>
     <canvas class="output_canvas" width="300px" height="169px"></canvas>
@@ -55,6 +60,12 @@
     const videoElement = document.getElementsByClassName('input_video')[0];
     const canvasElement = document.getElementsByClassName('output_canvas')[0];
     const canvasCtx = canvasElement.getContext('2d');
+    
+    var frame_count = 0;
+    var csrf_token = '{{ csrf_token }}';
+    var xhr = new XMLHttpRequest();
+    
+    let x=[];
     
     function onResults(results) {
       canvasCtx.save();
@@ -69,9 +80,13 @@
       canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
       // 랜드마크 점과 선 표시
       if (results.multiHandLandmarks) {
+        // 왼손 & 오른손 2번
         for (const landmarks of results.multiHandLandmarks) {
           drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: '#00FF00', lineWidth: 1});
           drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 1});
+
+          // 서버로 landmarks 전송
+          x = JSON.stringify({landmarks})
         }
       }
 
@@ -81,8 +96,8 @@
       canvasCtx.save();
       canvasCtx.font = '9px serif';
       if (results.multiHandLandmarks) {
+        // 왼손 & 오른손 2번
         for (const landmarks of results.multiHandLandmarks) {
-          // 왼손 & 오른손 2번
           for(const landmark of landmarks) {
             // console.log(landmark);
             // { x: 0.9868126511573792, 
@@ -100,6 +115,23 @@
         }
       }
       canvasCtx.restore();
+
+      if(frame_count % 5 == 0){
+        $.ajax({
+          url: 'landmark_data/',
+          type: 'POST',
+          data: {'landmarks' : x },
+          dataType : 'json',
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('X-CSRFToken', csrf_token)
+          },
+          success:function(res){
+            $('#motion_result').text(`감지됨 : ${res.location}`)
+          }
+        })
+      }
+
+      frame_count++; // 프레임 카운트
     }
     
     const hands = new Hands({locateFile: (file) => {
