@@ -17,25 +17,39 @@ namespace RhythmGameStarter
         public KeyCode left;
         public KeyCode right;
 
+        public List<bool> isPressed;
+
         [System.Serializable]
         public class StringList : ReorderableList<string> { }
 
         public override bool GetTrackActionKeyDown(Track track, int index)
         {
-            var key = keyMapping[index];
-            return Input.GetKeyDown(key);
+            return isPressed[index];
         }
 
         public override bool GetTrackActionKeyUp(Track track, int index)
         {
-            var key = keyMapping[index];
-            return Input.GetKeyUp(key);
+            return !isPressed[index];
         }
 
         public override bool GetTrackActionKey(Track track, int index)
         {
-            var key = keyMapping[index];
-            return Input.GetKey(key);
+            return isPressed[index];
+        }
+
+        public void KeyDown(int index)
+        {
+            isPressed[index] = true;
+        }
+
+        public void KeyUp(int index)
+        {
+            isPressed[index] = false;
+        }
+
+        public void KeyToggle(int index)
+        {
+            isPressed[index] = !isPressed[index];
         }
 
         public override bool GetTrackDirectionKey(Note.SwipeDirection swipeDirection)
