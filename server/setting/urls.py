@@ -23,4 +23,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('testUnity/', include('testUnity.urls'), name='testUnity'),
     path('testMediapipeHand/', include('testMediapipeHand.urls'), name='testMediapipeHand'),
+    path('testMotionGame/', include('testMotionGame.urls'), name='testMotionGame'),
 ]
