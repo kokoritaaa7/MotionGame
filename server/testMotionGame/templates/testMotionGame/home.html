@@ -160,6 +160,10 @@
           },
           success:function(res){
             $('#motion_result').text(`감지됨 : ${res.location}`)
+
+            if(controller){
+              controller.press(res.location);
+            }
           }
         })
       }
@@ -241,10 +245,13 @@
         fullscreenButton.onclick = () => {
           unityInstance.SetFullscreen(1);
         };
-        $("#btn_q").click(() => unityInstance.SendMessage("RhythmCore4Tracks", "KeyToggle", 0))
-        $("#btn_w").click(() => unityInstance.SendMessage("RhythmCore4Tracks", "KeyToggle", 1))
-        $("#btn_e").click(() => unityInstance.SendMessage("RhythmCore4Tracks", "KeyToggle", 2))
-        $("#btn_r").click(() => unityInstance.SendMessage("RhythmCore4Tracks", "KeyToggle", 3))
+        $("#btn_q").click(() => unityInstance.SendMessage("RhythmCore4Tracks", "KeyToggle", 'q'));
+        $("#btn_w").click(() => unityInstance.SendMessage("RhythmCore4Tracks", "KeyToggle", 'w'));
+        $("#btn_e").click(() => unityInstance.SendMessage("RhythmCore4Tracks", "KeyToggle", 'e'));
+        $("#btn_r").click(() => unityInstance.SendMessage("RhythmCore4Tracks", "KeyToggle", 'r'));
+
+        controller = makeController(key => unityInstance.SendMessage("RhythmCore4Tracks", "KeyDown", key),
+                                  key => unityInstance.SendMessage("RhythmCore4Tracks", "KeyUp", key));
       }).catch((message) => {
         alert(message);
       });
