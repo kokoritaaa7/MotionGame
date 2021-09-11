@@ -67,7 +67,7 @@
     
     let x=[];
 
-    var controller;
+    {/* var controller;
     var makeController = function(keyDownCallback, keyUpCallback){
       const input = {
         keys: [false, false, false, false],
@@ -98,7 +98,7 @@
       console.log("Controller : Init");
 
       return input;
-    }
+    } */}
     
     function onResults(results) {
       canvasCtx.save();
@@ -237,7 +237,44 @@
 
     var script = document.createElement("script");
     script.src = loaderUrl;
-    script.onload = () => {
+        script.onload = () => {
+          
+      var makeController;
+      
+      makeController = function(keyDownCallback, keyUpCallback){
+        const input = {
+          keys: [false, false, false, false],
+          keyIndex: {q: 0, w: 1, e: 2, r: 3},
+          isPressed: key => input.keys[key],
+          keyDown: key => {
+            if(!input.keys[key]){
+              input.keys[key] = true;
+              keyDownCallback(key);
+              console.log("Controller : KeyDown " + key);
+            }
+          },
+          keyUp: key => {
+            if(input.keys[key]){
+              input.keys[key] = false;
+              keyUpCallback(key);
+              console.log("Controller : KeyUp " + key);
+            }
+          },
+          press: keyName => {
+            console.log("Controller : Press " + keyName);
+            let key = input.keyIndex[keyName];
+  
+            input.keys.map((v, i) => i === key ? input.keyDown(i) : input.keyUp(i));
+          }
+        };
+  
+        console.log("Controller : Init");
+  
+        return input;
+      }
+
+
+
       createUnityInstance(canvas, config, (progress) => {
         progressBarFull.style.width = 100 * progress + "%";
       }).then((unityInstance) => {
