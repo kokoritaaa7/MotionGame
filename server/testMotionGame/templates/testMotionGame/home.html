@@ -36,23 +36,10 @@
     </div>
   </div>
 
-  <!-- 버튼 컨트롤러 (테스트용) -->
-  <div>
-    <button id="btn_q">Q 입력</button>
-    <button id="btn_w">W 입력</button>
-    <button id="btn_e">E 입력</button>
-    <button id="btn_r">R 입력</button>
-  </div>
-
-  <!-- 모션인식 결과 표시 -->
-  <div id="motion_result" style="font-size: large; height: 50px;">
-    감지됨 : ?
-  </div>
-
   <!-- 카메라 화면 (절대좌표)-->
   <div class="container" style="position: absolute; top: 50%; left: 5%;">
     <video class="input_video" height="0px" width="0px"></video>
-    <canvas class="output_canvas" width="300px" height="169px"></canvas>
+    <canvas class="output_canvas" width="0px" height="0px"></canvas>
   </div>
 
   <!-- 모션인식 스크립트 -->
@@ -67,76 +54,85 @@
     
     let x=[];
 
-    
-    function onResults(results) {
-      canvasCtx.save();
-      // 이미지 초기화
-      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-
-      // 이미지 좌우 반전
-      canvasCtx.scale(-1, 1); 
-      canvasCtx.translate(-canvasElement.width, 0);
-
-      // 배경이미지 그림
-      canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
-      // 랜드마크 점과 선 표시
-      if (results.multiHandLandmarks) {
-        // 왼손 & 오른손 2번
-        for (const landmarks of results.multiHandLandmarks) {
-          drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: '#00FF00', lineWidth: 1});
-          drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 1});
-
-          // 서버로 landmarks 전송
-          x = JSON.stringify({landmarks})
-        }
-      }
-
-      canvasCtx.restore();
-
-      // 랜드마크 좌표 표시
-      canvasCtx.save();
-      canvasCtx.font = '9px serif';
-      if (results.multiHandLandmarks) {
-        // 왼손 & 오른손 2번
-        for (const landmarks of results.multiHandLandmarks) {
-          for(const landmark of landmarks) {
-            // console.log(landmark);
-            // { x: 0.9868126511573792, 
-            //   y: 0.8057811856269836, 
-            //   z: -0.19932006299495697, 
-            //   visibility: undefined}
-
-            const x = canvasElement.width * Math.round(landmark.x * 100) / 100;
-            const y = canvasElement.height * Math.round(landmark.y * 100) / 100;
-            const z = Math.round(landmark.z * 100) / 100;
-
-            // 좌우 반전되 있으므로 text 그릴 x 좌표 값을 반전
-            canvasCtx.fillText(`(${x}, ${y}, ${z})`, canvasElement.width - x, y);
-          }
-        }
-      }
-      canvasCtx.restore();
-
-      if(frame_count % 2 == 0){
-        $.ajax({
-          url: 'landmark_data/',
-          type: 'POST',
-          data: {'landmarks' : x },
-          dataType : 'json',
-          beforeSend: function(xhr) {
-            xhr.setRequestHeader('X-CSRFToken', csrf_token)
+    var handInfo = (function(){
+        const handInfo = {
+          isLeft: false,
+          x: 0,
+          y: 0,
+          isVisible: false,
+          setPosCallback: null,
+          setHandInfo: (isLeft, x, y, isVisible) => {
+            handInfo.isLeft = isLeft
+            handInfo.x = x
+            handInfo.y = y
+            handInfo.isVisible = isVisible
           },
-          success:function(res){
-            $('#motion_result').text(`감지됨 : ${res.location}`)
-
-            if(controller){
-              controller.press(res.location);
+          sendPos: () => {
+            if(handInfo.setPosCallback){
+              handInfo.setPosCallback([handInfo.isLeft.toString(), handInfo.x.toString(), handInfo.y.toString()].join('/'))
             }
           }
-        })
-      }
+        }
 
-      frame_count++; // 프레임 카운트
+        return handInfo
+    })();
+
+    var controller
+    const makeController = function(keyDownCallback, keyUpCallback){
+      const input = {
+        keys: [false, false, false, false],
+        keyIndex: {q: 0, w: 1, e: 2, r: 3},
+        isPressed: key => input.keys[key],
+        keyDown: key => {
+          if(!input.keys[key]){
+            input.keys[key] = true;
+            keyDownCallback(key);
+            console.log("Controller : KeyDown " + key);
+          }
+        },
+        keyUp: key => {
+          if(input.keys[key]){
+            input.keys[key] = false;
+            keyUpCallback(key);
+            console.log("Controller : KeyUp " + key);
+          }
+        },
+        press: keyName => {
+          console.log("Controller : Press " + keyName);
+          let key = input.keyIndex[keyName];
+
+          input.keys.map((v, i) => i === key ? input.keyDown(i) : input.keyUp(i));
+        }
+      };
+      console.log("Controller : Init");
+
+      return input;
+    }
+
+    function onResults(results) {
+      if (results.multiHandedness) {
+        // 왼손 & 오른손 2번
+        let index = 0
+        for (const handedness of results.multiHandedness) {
+          const landmarks = results.multiHandLandmarks[index++]
+
+          let x = 0, y = 0;
+          for(const landmark of landmarks){
+            x += landmark.x;
+            y += landmark.y;           
+          }
+          x /= landmarks.length;
+          y /= landmarks.length;
+
+          // 반전
+          x = 1 - x
+          y = 1 - y
+
+          const isLeft = handedness.label === "Left"
+          handInfo.setHandInfo(isLeft, x, y, true)
+          handInfo.sendPos()
+        }
+      }
     }
     
     const hands = new Hands({locateFile: (file) => {
@@ -144,8 +140,8 @@
     }});
     hands.setOptions({
       maxNumHands: 2,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5
+      minDetectionConfidence: 0.8,
+      minTrackingConfidence: 0.8
     });
     hands.onResults(onResults);
     
@@ -157,10 +153,8 @@
       height: 720
     });
     camera.start();
-  </script>
 
-  <!-- unity 게임 스크립트 -->
-  <script>
+    // 자바스크립트
     var buildUrl = "{% static 'testMotionGame/Build' %}";
     var loaderUrl = buildUrl + "/testMotionGame.loader.js";
     var config = {
@@ -180,18 +174,8 @@
     var fullscreenButton = document.querySelector("#unity-fullscreen-button");
     var mobileWarning = document.querySelector("#unity-mobile-warning");
 
-
-    // By default Unity keeps WebGL canvas render target size matched with
-    // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-    // Set this to false if you want to decouple this synchronization from
-    // happening inside the engine, and you would instead like to size up
-    // the canvas DOM size and WebGL render target sizes yourself.
-    // config.matchWebGLToCanvasSize = false;
-
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       container.className = "unity-mobile";
-      // Avoid draining fillrate performance on mobile devices,
-      // and default/override low DPI mode on mobile browsers.
       config.devicePixelRatio = 1;
       mobileWarning.style.display = "block";
       setTimeout(() => {
@@ -206,43 +190,6 @@
     var script = document.createElement("script");
     script.src = loaderUrl;
     script.onload = () => {
-          
-      var makeController;
-      
-      makeController = function(keyDownCallback, keyUpCallback){
-        const input = {
-          keys: [false, false, false, false],
-          keyIndex: {q: 0, w: 1, e: 2, r: 3},
-          isPressed: key => input.keys[key],
-          keyDown: key => {
-            if(!input.keys[key]){
-              input.keys[key] = true;
-              keyDownCallback(key);
-              console.log("Controller : KeyDown " + key);
-            }
-          },
-          keyUp: key => {
-            if(input.keys[key]){
-              input.keys[key] = false;
-              keyUpCallback(key);
-              console.log("Controller : KeyUp " + key);
-            }
-          },
-          press: keyName => {
-            console.log("Controller : Press " + keyName);
-            let key = input.keyIndex[keyName];
-  
-            input.keys.map((v, i) => i === key ? input.keyDown(i) : input.keyUp(i));
-          }
-        };
-  
-        console.log("Controller : Init");
-  
-        return input;
-      }
-
-
-
       createUnityInstance(canvas, config, (progress) => {
         progressBarFull.style.width = 100 * progress + "%";
       }).then((unityInstance) => {
@@ -250,13 +197,8 @@
         fullscreenButton.onclick = () => {
           unityInstance.SetFullscreen(1);
         };
-        $("#btn_q").click(() => unityInstance.SendMessage("RhythmCore4Tracks", "KeyToggle", 'q'));
-        $("#btn_w").click(() => unityInstance.SendMessage("RhythmCore4Tracks", "KeyToggle", 'w'));
-        $("#btn_e").click(() => unityInstance.SendMessage("RhythmCore4Tracks", "KeyToggle", 'e'));
-        $("#btn_r").click(() => unityInstance.SendMessage("RhythmCore4Tracks", "KeyToggle", 'r'));
-
-        controller = makeController(key => unityInstance.SendMessage("RhythmCore4Tracks", "KeyDown", key),
-                                  key => unityInstance.SendMessage("RhythmCore4Tracks", "KeyUp", key));
+        controller = makeController(key => unityInstance.SendMessage("RhythmCore4Tracks", "KeyDown", key), key => unityInstance.SendMessage("RhythmCore4Tracks", "KeyUp", key));
+        handInfo.setPosCallback = handInfo => unityInstance.SendMessage("InputManager", "SetPos", handInfo) 
       }).catch((message) => {
         alert(message);
       });
