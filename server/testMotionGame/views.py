@@ -3,7 +3,7 @@ from django.shortcuts import render
 import cv2
 import numpy as np
 import mediapipe as mp
-import joblib
+# import joblib
 # import pyautogui
 import json
 
