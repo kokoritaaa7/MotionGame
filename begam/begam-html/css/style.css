@@ -3080,7 +3080,7 @@ body::-webkit-scrollbar-thumb:hover {
     margin-bottom: 30px;
 }
 #shop-cart-section .table thead tr th:first-child{
-    text-align: start;
+    /* text-align: start; */
 }
 #shop-cart-section .table thead tr th{
     padding: 20px;
