@@ -93,13 +93,17 @@ def sendResult(landmarks, knn):
 
     return location
 
-
 def test():
-    file = np.genfromtxt('TEMPLATES/gesture_train.csv', delimiter=',')
-    angle = file[:,:-1].astype(np.float32)
-    label = file[:, -1].astype(np.float32)
-    knn = cv2.ml.KNearest_create()
-    knn.train(angle, cv2.ml.ROW_SAMPLE, label)
-    # joblib.dump(knn, 'TEMPLATES/KNN_gestureModel.sav')
+    knn=None
+    try :
+        knn=cv2.ml.KNearest_load('KNNalgorithm')
+        
+    except :
+        file = np.genfromtxt('TEMPLATES/gesture_train.csv', delimiter=',')
+        angle = file[:,:-1].astype(np.float32)
+        label = file[:, -1].astype(np.float32)
+        knn = cv2.ml.KNearest_create()
+        knn.train(angle, cv2.ml.ROW_SAMPLE, label)
+        knn.save('KNNalgorithm')
 
     return knn
