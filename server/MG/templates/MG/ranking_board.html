@@ -1,0 +1,101 @@
+{% extends './base.html' %}
+{% load static %} 
+{% block content %}
+
+    <!-- banner Section start -->
+    <section id="banner-section" class="inner-banner profile features shop">
+        <div class="overlay">
+            <div class="ani-img">
+                <img class="img-1" src="{% static 'testMotionGame/images/banner-circle-1.png' %}" alt="icon">
+                <img class="img-2" src="{% static 'testMotionGame/images/banner-circle-2.png' %}" alt="icon">
+                <img class="img-3" src="{% static 'testMotionGame/images/banner-circle-2.png' %}" alt="icon">
+            </div>
+            <div class="banner-content d-flex align-items-center">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="main-content">
+                                <h1>Ranking Board</h1>
+                                <h4>TOP 20 or Find your Ranking!</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- banner Section end -->
+
+    <!-- Ranking Board Start -->
+    <section id="shop-cart-section" class="pt-60 pb-120">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <th scope="col">RANK</th>
+                                    <th scope="col">NickName</th>
+                                    <th scope="col">Score</th>
+                                    {% comment %} <th scope="col">Date</th> {% endcomment %}
+                                </thead>
+                                <tbody>
+                                    {% if data %}
+                                    {% for r in data %}
+                                    <tr style="margin:5%">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ r.name }}</td>
+                                        <td>{{ r.score }}</td>
+                                        {% comment %} <td>{{ r.date }}</td> {% endcomment %}
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                    <td colspan="3">해당 이름의 데이터가 없습니다.</td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Ranking Board end -->
+                    <!-- Search NickName Start -->
+                    <div class="col-lg-4">
+                        <div class="right-sidebar">
+                            <div class="top-area">
+                                <h5>Find your Ranking 🔍</h5>
+                                <p>Enter the name you wrote down at the end of the game.</p>
+                            </div>
+                            <div class="bottom-side text-center">
+                                <form method="post">
+                                    <div class="apply d-flex">
+                                        <input type="text" placeholder="Enter NickName">
+                                        <button class="cmn-btn">Apply</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Search NickName End -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="{% static 'testMotionGame/js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/slick.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/fontawesome.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/countdown.jquery.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/xzoom.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/xzoom-setup.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/wow.js' %}"></script>
+    <script src="{% static 'testMotionGame/js/main.js' %}"></script>
+
+{% endblock  %}
