@@ -1,97 +1,14 @@
-<!DOCTYPE html>
-<html lang="zxx">
+{% extends './base.html' %}
+{% load static %} 
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Begam - Online Gaming Tournaments Template</title>
-
-    <link rel="shortcut icon" href="images/fav.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/fontawesome.min.css">
-    <link rel="stylesheet" href="css/slick.css">
-    <link rel="stylesheet" href="css/nice-select.css">
-    <link rel="stylesheet" href="css/animate.css">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-
-<body>
-
-    <!-- start preloader -->
-    <div class="preloader" id="preloader"></div>
-    <!-- end preloader -->
-
-    <a href="#" class="scrollToTop"><i class="fas fa-angle-double-up"></i></a>
-
-    <!-- header-section start -->
-    <header id="header-section">
-        <div class="overlay">
-            <div class="container">
-                <div class="row d-flex header-area">
-                    <div class="logo-section flex-grow-1 d-flex align-items-center">
-                        <a class="site-logo site-title" href="index.html"><img src="images/logo.png"
-                                alt="site-logo"></a>
-                    </div>
-                    <button class="navbar-toggler ml-auto collapsed" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <nav class="navbar navbar-expand-lg p-0">
-                        <div class="navbar-collapse collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav main-menu ml-auto">
-                                <li><a href="index.html">Home</a></li>
-                                <li class="menu_has_children"><a href="#0">Tournaments</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="tournaments.html">Tournaments</a></li>
-                                        <li><a href="tournaments-single.html">Tournaments Single</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu_has_children"><a href="#0" class="active">Pages</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="about-us.html">About Us</a></li>
-                                        <li><a href="shop.html">Shop</a></li>
-                                        <li><a href="shop-details.html">Shop Details</a></li>
-                                        <li><a href="profile.html">Profile</a></li>
-                                        <li><a href="cart.html">Cart</a></li>
-                                        <li><a href="check-out.html">Check Out</a></li>
-                                        <li><a href="features.html">Features</a></li>
-                                        <li><a href="error.html">Error</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="contact.html">Contact</a></li>
-                            </ul>
-                        </div>
-                    </nav>
-                    <div class="right-area header-action d-flex align-items-center">
-                        <div class="search-icon">
-                            <a href="#"><img src="images/search_btn.png" alt="icon"></a>
-                        </div>
-                        <div class="lang d-flex align-items-center">
-                            <select>
-                                <option value="1">EN</option>
-                                <option value="2">BN</option>
-                                <option value="3">ES</option>
-                                <option value="4">NL</option>
-                            </select>
-                        </div>
-                        <a href="login.html" class="login-btn">Login</a>
-                        <a href="registration.html" class="cmn-btn">Join Now!</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- header-section end -->
+{% block content %}
 
     <!-- banner-section start -->
     <section id="banner-section" class="inner-banner">
         <div class="ani-img">
-            <img class="img-1" src="images/banner-circle-1.png" alt="icon">
-            <img class="img-2" src="images/banner-circle-2.png" alt="icon">
-            <img class="img-3" src="images/banner-circle-2.png" alt="icon">
+            <img class="img-1" src="{% static 'MG/images/banner-circle-1.png' %}" alt="icon">
+            <img class="img-2" src="{% static 'MG/images/banner-circle-2.png' %}" alt="icon">
+            <img class="img-3" src="{% static 'MG/images/banner-circle-2.png' %}" alt="icon">
         </div>
         <div class="banner-content d-flex align-items-center">
             <div class="container">
@@ -102,7 +19,7 @@
                             <div class="breadcrumb-area">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb d-flex justify-content-center">
-                                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="index.html ">Home</a></li>
                                         <li class="breadcrumb-item"><a href="#">Pages</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">About Us</li>
                                     </ol>
@@ -146,7 +63,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="img-area">
-                                <img src="images/counter-icon-1.png" alt="image">
+                                <img src="{% static 'MG/images/counter-icon-1.png' %}" alt="image">
                             </div>
                             <h3><span class="counter">84</span>K</h3>
                             <p>Matches Played</p>
@@ -155,7 +72,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="img-area">
-                                <img src="images/counter-icon-2.png" alt="image">
+                                <img src="{% static 'MG/images/counter-icon-2.png' %}" alt="image">
                             </div>
                             <h3>$<span class="counter">96</span>m</h3>
                             <p>Winnings Paid</p>
@@ -164,7 +81,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="img-area">
-                                <img src="images/counter-icon-3.png" alt="image">
+                                <img src="{% static 'MG/images/counter-icon-3.png' %}" alt="image">
                             </div>
                             <h3><span class="counter">180</span></h3>
                             <p>Active Ladders</p>
@@ -173,7 +90,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="img-area">
-                                <img src="images/counter-icon-4.png" alt="image">
+                                <img src="{% static 'MG/images/counter-icon-4.png' %}" alt="image">
                             </div>
                             <h3><span class="counter">168</span>b</h3>
                             <p>XP Earned</p>
@@ -192,7 +109,7 @@
                 <div class="main-content">
                     <div class="row d-sm-flex justify-content-sm-end">
                         <div class="col-lg-4 col-md-1">
-                            <img class="left" src="images/call-to-action-left.png" alt="image">
+                            <img class="left" src="{% static 'MG/images/call-to-action-left.png' %}" alt="image">
                         </div>
                         <div class="col-lg-4 col-md-5 col-sm-5 d-flex align-items-center">
                             <div class="section-item">
@@ -203,7 +120,7 @@
                             <div class="btn-area d-flex justify-content-center justify-content-sm-end align-items-center">
                                 <a href="registration.html" class="cmn-btn">Join Now</a>
                             </div>
-                            <img src="images/call-to-action-right.png" alt="image">
+                            <img src="{% static 'MG/images/call-to-action-right.png' %}" alt="image">
                         </div>
                     </div>
                 </div>
@@ -228,7 +145,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="img-area">
-                                <img src="images/features-icon-1.png" alt="image">
+                                <img src="{% static 'MG/images/features-icon-1.png' %}" alt="image">
                             </div>
                             <h5>Premium Support</h5>
                             <p>Our dedicated admins are there to answer in no time, avg response time is 5mins.</p>
@@ -237,7 +154,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="img-area">
-                                <img src="images/features-icon-2.png" alt="image">
+                                <img src="{% static 'MG/images/features-icon-2.png' %}" alt="image">
                             </div>
                             <h5>Instant Deposits</h5>
                             <p>Make a deposit and receive your funds instantly to your account.</p>
@@ -246,7 +163,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="img-area">
-                                <img src="images/features-icon-3.png" alt="image">
+                                <img src="{% static 'MG/images/features-icon-3.png' %}" alt="image">
                             </div>
                             <h5>Climb the Leaderboards</h5>
                             <p>Compete in monthly leaderboard challenges for real cash and prizes.</p>
@@ -255,7 +172,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="img-area">
-                                <img src="images/features-icon-4.png" alt="image">
+                                <img src="{% static 'MG/images/features-icon-4.png' %}" alt="image">
                             </div>
                             <h5>Make 2x your $$</h5>
                             <p>Our dedicated admins are there to answer in no time, avg response time is 5mins.</p>
@@ -264,7 +181,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="img-area">
-                                <img src="images/features-icon-5.png" alt="image">
+                                <img src="{% static 'MG/images/features-icon-5.png' %}" alt="image">
                             </div>
                             <h5>Make up to 10X your $$</h5>
                             <p>Make up to 10X your money on multiplayer tourneys. With paid and free entry.</p>
@@ -273,7 +190,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="img-area">
-                                <img src="images/features-icon-6.png" alt="image">
+                                <img src="{% static 'MG/images/features-icon-6.png' %}" alt="image">
                             </div>
                             <h5>Play at your Level</h5>
                             <p>With ranked divisions we help you find the right level to compete.</p>
@@ -305,7 +222,7 @@
                                 <div class="left-area d-flex">
                                     <div class="img">
                                         <div class="img-area">
-                                            <img src="images/testimonials-user-1.png" alt="image">
+                                            <img src="{% static 'MG/images/testimonials-user-1.png' %}" alt="image">
                                         </div>
                                     </div>
                                     <div class="title-area">
@@ -326,7 +243,7 @@
                                 <div class="left-area d-flex">
                                     <div class="img">
                                         <div class="img-area">
-                                            <img src="images/testimonials-user-2.png" alt="image">
+                                            <img src="{% static 'MG/images/testimonials-user-2.png' %}" alt="image">
                                         </div>
                                     </div>
                                     <div class="title-area">
@@ -347,7 +264,7 @@
                                 <div class="left-area d-flex">
                                     <div class="img">
                                         <div class="img-area">
-                                            <img src="images/testimonials-user-3.png" alt="image">
+                                            <img src="{% static 'MG/images/testimonials-user-3.png' %}" alt="image">
                                         </div>
                                     </div>
                                     <div class="title-area">
@@ -368,7 +285,7 @@
                                 <div class="left-area d-flex">
                                     <div class="img">
                                         <div class="img-area">
-                                            <img src="images/testimonials-user-2.png" alt="image">
+                                            <img src="{% static 'MG/images/testimonials-user-2.png' %}" alt="image">
                                         </div>
                                     </div>
                                     <div class="title-area">
@@ -404,7 +321,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="top-item text-center">
-                                <img src="images/team-1.png" alt="image">
+                                <img src="{% static 'MG/images/team-1.png' %}" alt="image">
                                 <div class="social-area">
                                     <ul class="d-flex justify-content-center">
                                         <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -422,7 +339,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="top-item text-center">
-                                <img src="images/team-2.png" alt="image">
+                                <img src="{% static 'MG/images/team-2.png' %}" alt="image">
                                 <div class="social-area">
                                     <ul class="d-flex justify-content-center">
                                         <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -440,7 +357,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="top-item text-center">
-                                <img src="images/team-3.png" alt="image">
+                                <img src="{% static 'MG/images/team-3.png' %}"alt="image">
                                 <div class="social-area">
                                     <ul class="d-flex justify-content-center">
                                         <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -458,7 +375,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-item text-center">
                             <div class="top-item text-center">
-                                <img src="images/team-1.png" alt="image">
+                                <img src="{% static 'MG/images/team-1.png' %}" alt="image">
                                 <div class="social-area">
                                     <ul class="d-flex justify-content-center">
                                         <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -479,85 +396,16 @@
     </section>
     <!-- Testimonials In end -->
 
-    <!-- footer-section start -->
-    <footer id="footer-section">
-        <div class="overlay">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="footer-top">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-6 col-md-8">
-                                    <div class="top-area text-center">
-                                        <h3>Subscribe to Our Newsletter</h3>
-                                        <p>Receive news, stay updated and special offers</p>
-                                    </div>
-                                    <form action="#">
-                                        <div class="subscribe d-flex">
-                                            <input type="email" placeholder="Your Email Address">
-                                            <button class="cmn-btn">Subscribe</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-mid pt-120">
-            <div class="container">
-                <div class="row d-flex">
-                    <div class="col-lg-8 col-md-8 d-flex justify-content-md-between justify-content-center align-items-center cus-grid">
-                        <div class="logo-section">
-                            <a class="site-logo site-title" href="index.html"><img src="images/logo.png" alt="site-logo"></a>
-                        </div>
-                        <ul class="menu-side d-flex align-items-center">
-                            <li><a href="index.html" class="active">Home</a></li>
-                            <li><a href="about-us.html">About Us</a></li>
-                            <li><a href="contact.html">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-4 col-md-4 d-flex align-items-center justify-content-center justify-content-md-end">
-                        <div class="right-area">
-                            <ul class="d-flex">
-                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="main-content">
-                    <div class="row d-flex align-items-center justify-content-center">
-                        <div class="col-lg-12 col-md-6">
-                            <div class="left-area text-center">
-                                <p>Copyright © 2021. All Rights Reserved By
-                                    <a href="#">BEGAM</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- footer-section end -->
 
-    <script src="js/jquery-3.5.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/slick.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/fontawesome.js"></script>
-    <script src="js/jquery.counterup.min.js"></script>
-    <script src="js/jquery.waypoints.min.js"></script>
-    <script src="js/wow.js"></script>
-    <script src="js/main.js"></script>
 
-</body>
+    <script src="{% static 'MG/js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'MG/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'MG/js/slick.js' %}"></script>
+    <script src="{% static 'MG/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'MG/js/fontawesome.js' %}"></script>
+    <script src="{% static 'MG/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'MG/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'MG/js/wow.js' %}"></script>
+    <script src="{% static 'MG/js/main.js' %}"></script>
 
-</html>
+{% endblock  %}

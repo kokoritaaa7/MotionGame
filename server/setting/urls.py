@@ -24,4 +24,5 @@ urlpatterns = [
     path('testUnity/', include('testUnity.urls'), name='testUnity'),
     path('testMediapipeHand/', include('testMediapipeHand.urls'), name='testMediapipeHand'),
     path('testMotionGame/', include('testMotionGame.urls'), name='testMotionGame'),
+    path('MG/', include('MG.urls'), name='MG'),
 ]

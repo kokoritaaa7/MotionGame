@@ -1,91 +1,20 @@
-<!DOCTYPE html>
-<html lang="zxx">
+{% extends './base.html' %}
+{% load static %} 
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Begam - Online Gaming Tournaments Template</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
 
-    <link rel="shortcut icon" href='images/fav.png' type="image/x-icon">
-    <link rel="stylesheet" href='css/bootstrap.min.css'>
-    <link rel="stylesheet" href='css/fontawesome.min.css'>
-    <link rel="stylesheet" href='css/slick.css'>
-    <link rel="stylesheet" href='css/nice-select.css'>
-    <link rel="stylesheet" href="css/magnific-popup.css">
-    <link rel="stylesheet" href='css/animate.css'>
-    <link rel="stylesheet" href='css/style.css'>
-</head>
 
-<body>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Unity WebGL Player | New Unity Project</title>
+        <link rel="shortcut icon" href={% static "testUnity/TemplateData/favicon.ico" %}>
+        <link rel="stylesheet" href={% static "testUnity/TemplateData/style.css" %}>
 
-    <!-- start preloader -->
-    <div class="preloader" id="preloader"></div>
-    <!-- end preloader -->
+        <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
 
-    <a href="#" class="scrollToTop"><i class="fas fa-angle-double-up"></i></a>
-
-    <!-- header-section start -->
-    <header id="header-section">
-        <div class="overlay">
-            <div class="container">
-                <div class="row d-flex header-area">
-                    <div class="logo-section flex-grow-1 d-flex align-items-center">
-                        <a class="site-logo site-title" href=index.html><img src="{% static 'MG/images/logo.png' %}"
-                                alt="site-logo"></a>
-                    </div>
-                    <button class="navbar-toggler ml-auto collapsed" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <nav class="navbar navbar-expand-lg p-0">
-                        <div class="navbar-collapse collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav main-menu ml-auto">
-                                <li><a href=index.html>Home</a></li>
-                                <li class="menu_has_children"><a href="#0" class="active">Tournaments</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="tournaments.html">Tournaments</a></li>
-                                        <li><a href="tournaments-single.html">Tournaments Single</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu_has_children"><a href="#0">Pages</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="about-us.html">About Us</a></li>
-                                        <li><a href="shop.html">Shop</a></li>
-                                        <li><a href="shop-details.html">Shop Details</a></li>
-                                        <li><a href="profile.html">Profile</a></li>
-                                        <li><a href="cart.html">Cart</a></li>
-                                        <li><a href="check-out.html">Check Out</a></li>
-                                        <li><a href="features.html">Features</a></li>
-                                        <li><a href="error.html">Error</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="contact.html">Contact</a></li>
-                            </ul>
-                        </div>
-                    </nav>
-                    <div class="right-area header-action d-flex align-items-center">
-                        <div class="search-icon">
-                            <a href="#"><img src="{% static 'MG/images/search_btn.png' %}" alt="icon"></a>
-                        </div>
-                        <div class="lang d-flex align-items-center">
-                            <select>
-                                <option value="1">EN</option>
-                                <option value="2">BN</option>
-                                <option value="3">ES</option>
-                                <option value="4">NL</option>
-                            </select>
-                        </div>
-                        <a href="login.html" class="login-btn">Login</a>
-                        <a href="registration.html" class="cmn-btn">Join Now!</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- header-section end -->
 
     <!-- banner-section start -->
     <section id="banner-section" class="inner-banner tournaments">
@@ -103,7 +32,7 @@
                             <div class="breadcrumb-area">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb d-flex justify-content-center">
-                                        <li class="breadcrumb-item"><a href=index.html>Home</a></li>
+                                        <li class="breadcrumb-item"><a href="index.html ">Home</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Tournaments</li>
                                     </ol>
                                 </nav>
@@ -190,50 +119,9 @@
                 <div class="container pb-120">
                     <div class="row justify-content-center">
                         <div class="col-lg-8">
-                            <h4 class="head-area">Format</h4>
+                            <h4 class="head-area">Motion Game</h4>
                             <div class="row wrapper">
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="single-area">
-                                        <img src="{% static 'MG/images/format-icon-1.png' %}" alt="image">
-                                        <h6>Game</h6>
-                                        <p class="text-sm">CS:GO</p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="single-area">
-                                        <img src="{% static 'MG/images/format-icon-2.png' %}" alt="image">
-                                        <h6>Check-in period</h6>
-                                        <p class="text-sm">45 minutes before start</p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="single-area">
-                                        <img src="{% static 'MG/images/format-icon-3.png' %}" alt="image">
-                                        <h6>Team Size</h6>
-                                        <p class="text-sm">1VS1</p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="single-area">
-                                        <img src="{% static 'MG/images/format-icon-4.png' %}" alt="image">
-                                        <h6>Entry Fee</h6>
-                                        <p class="text-sm">Free to enter</p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="single-area">
-                                        <img src="{% static 'MG/images/format-icon-5.png' %}" alt="image">
-                                        <h6>Prize Pool</h6>
-                                        <p class="text-sm">$100</p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="single-area">
-                                        <img src="{% static 'MG/images/format-icon-6.png' %}" alt="image">
-                                        <h6>Tournament Format</h6>
-                                        <p class="text-sm">Single Elimination</p>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="info-area">
                                 <h4>Information</h4>
@@ -276,13 +164,12 @@
                             <div class="sidebar">
                                 <div class="single-side">
                                     <h5>Participants</h5>
-                                    <div class="participants">
-                                        <ul>
-                                            <li><span>Registered</span><span>17</span></li>
-                                            <li><span>Confirmed</span><span>15</span></li>
-                                            <li><span>Available slots</span><span>16</span></li>
-                                        </ul>
-                                    </div>
+                                        <div class="container1">
+                                            <video class="input_video" style="display:none;" ></video>
+                                        </div>
+
+                                        <canvas class="output_canvas"></canvas>
+                                        <div class = "frame"></div>
                                 </div>
                                 <div class="single-side">
                                     <div class="part-people d-flex align-items-center justify-content-between">
@@ -296,112 +183,7 @@
                                         <a href="#" class="right-area">12+</a>
                                     </div>
                                 </div>
-                                <div class="single-side">
-                                    <div class="head-area d-flex justify-content-between align-items-center">
-                                        <h5>Results</h5>
-                                        <a href="#" class="viewall text-sm">View all</a>
-                                    </div>
-                                    <div class="result-single">
-                                        <img src="{% static 'MG/images/result-img-1.png' %}" alt="images">
-                                        <div class="text-area d-flex justify-content-between align-items-center">
-                                            <span>1st</span>
-                                            <h4>$60.0</h4>
-                                        </div>
-                                    </div>
-                                    <div class="result-single">
-                                        <img src="{% static 'MG/images/result-img-2.png' %}" alt="images">
-                                        <div class="text-area d-flex justify-content-between align-items-center">
-                                            <span>2nd</span>
-                                            <h4>$25.0</h4>
-                                        </div>
-                                    </div>
-                                    <div class="result-single">
-                                        <img src="{% static 'MG/images/result-img-3.png' %}" alt="images">
-                                        <div class="text-area d-flex justify-content-between align-items-center">
-                                            <span>3rd</span>
-                                            <h4>$15.0</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-side">
-                                    <h5>Game</h5>
-                                    <div class="game-area d-flex align-items-center">
-                                        <img src="{% static 'MG/images/game-left.png' %}" alt="images">
-                                        <div class="right-side">
-                                            <h6>Game</h6>
-                                            <p>Counter-Strike:
-                                                Global Offensive</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-side">
-                                    <h5>Admins (3)</h5>
-                                    <div class="admins-area">
-                                        <div class="admins-single">
-                                            <div class="left-area d-flex align-items-center">
-                                                <img src="{% static 'MG/images/admin-img-1.png' %}" alt="images">
-                                                <div class="right-side">
-                                                    <h6>Davis Rosser</h6>
-                                                    <p class="text-sm">OLT Support</p>
-                                                </div>
-                                            </div>
-                                            <div class="right-area">
-                                                <div class="nice-select"><span class="current single-item share">
-                                                        <span class="dot"></span>
-                                                        <span class="dot"></span>
-                                                        <span class="dot"></span>
-                                                    </span>
-                                                    <ul class="list">
-                                                        <li><a href="#"><i class="fab fa-facebook-f"></i>Share</a></li>
-                                                        <li><a href="profile.html"><i class="fas fa-share-alt"></i>View Profile</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="admins-single">
-                                            <div class="left-area d-flex align-items-center">
-                                                <img src="{% static 'MG/images/admin-img-1.png' %}" alt="images">
-                                                <div class="right-side">
-                                                    <h6>Davis Rosser</h6>
-                                                    <p class="text-sm">OLT Support</p>
-                                                </div>
-                                            </div>
-                                            <div class="right-area">
-                                                <div class="nice-select"><span class="current single-item share">
-                                                        <span class="dot"></span>
-                                                        <span class="dot"></span>
-                                                        <span class="dot"></span>
-                                                    </span>
-                                                    <ul class="list">
-                                                        <li><a href="#"><i class="fab fa-facebook-f"></i>Share</a></li>
-                                                        <li><a href="profile.html"><i class="fas fa-share-alt"></i>View Profile</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="admins-single">
-                                            <div class="left-area d-flex align-items-center">
-                                                <img src="{% static 'MG/images/admin-img-1.png' %}" alt="images">
-                                                <div class="right-side">
-                                                    <h6>Davis Rosser</h6>
-                                                    <p class="text-sm">OLT Support</p>
-                                                </div>
-                                            </div>
-                                            <div class="right-area">
-                                                <div class="nice-select"><span class="current single-item share">
-                                                        <span class="dot"></span>
-                                                        <span class="dot"></span>
-                                                        <span class="dot"></span>
-                                                    </span>
-                                                    <ul class="list">
-                                                        <li><a href="#"><i class="fab fa-facebook-f"></i>Share</a></li>
-                                                        <li><a href="profile.html"><i class="fas fa-share-alt"></i>View Profile</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -1199,74 +981,6 @@
     </section>
     <!-- Testimonials Content End -->
 
-    <!-- footer-section start -->
-    <footer id="footer-section">
-        <div class="overlay">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="footer-top">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-6 col-md-8">
-                                    <div class="top-area text-center">
-                                        <h3>Subscribe to Our Newsletter</h3>
-                                        <p>Receive news, stay updated and special offers</p>
-                                    </div>
-                                    <form action="#">
-                                        <div class="subscribe d-flex">
-                                            <input type="email" placeholder="Your Email Address">
-                                            <button class="cmn-btn">Subscribe</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-mid pt-120">
-            <div class="container">
-                <div class="row d-flex">
-                    <div class="col-lg-8 col-md-8 d-flex justify-content-md-between justify-content-center align-items-center cus-grid">
-                        <div class="logo-section">
-                            <a class="site-logo site-title" href=index.html><img src="{% static 'MG/images/logo.png' %}" alt="site-logo"></a>
-                        </div>
-                        <ul class="menu-side d-flex align-items-center">
-                            <li><a href=index.html class="active">Home</a></li>
-                            <li><a href="about-us.html">About Us</a></li>
-                            <li><a href="contact.html">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-4 col-md-4 d-flex align-items-center justify-content-center justify-content-md-end">
-                        <div class="right-area">
-                            <ul class="d-flex">
-                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="main-content">
-                    <div class="row d-flex align-items-center justify-content-center">
-                        <div class="col-lg-12 col-md-6">
-                            <div class="left-area text-center">
-                                <p>Copyright © 2021. All Rights Reserved By
-                                    <a href="#">BEGAM</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- footer-section end -->
 
     <script src="{% static 'MG/js/jquery-3.5.1.min.js' %}"></script>
     <script src="{% static 'MG/js/bootstrap.min.js' %}"></script>
@@ -1280,6 +994,4 @@
     <script src="{% static 'MG/js/wow.js' %}"></script>
     <script src="{% static 'MG/js/main.js' %}"></script>
 
-</body>
-
-</html>
+{% endblock  %}
