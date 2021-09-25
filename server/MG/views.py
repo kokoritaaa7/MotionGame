@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from .models import RankingBoard
+from .redis_client import RedisRanker
 from django.shortcuts import render
+import json
 
 # Create your views here.
 def us(request):
@@ -49,20 +51,45 @@ def tour_sing(request):
     return render(request, 'MG/tour_sing.html')
 
 def ranking_board(request):
+
+    import redis
+
+    conn_redis = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
+    gameRanker = RedisRanker(conn_redis, "game", False)
+    
+
     if request.method == 'GET':
-        top20 = RankingBoard.objects.order_by('-score')[:20] # 상위 20개
-        return render(request, 'testMotionGame/ranking_board.html', {'data': top20})
+        top20_names = gameRanker.getTops()
+        top20 = {}
+        for idx, name in enumerate(top20_names):
+            item = dict({
+                'ranking':idx+1,
+                'name': name,
+                'score' : gameRanker.getScore(name)
+            })
+            top20['rank'+str(idx+1)] = (item)
+
+        print(top20)
+
+        return render(request, 'MG/ranking_board.html', {'data': top20})
     else: # 검색 기능 필요
-        id = request.POST.get('id')
-        data = RankingBoard.objects.filter(name=id)
+        nickname = request.POST.get('nickname')
 
-        ### 등수 어떻게 구하지? -> 물어보자
-        # 다 가져오고 정렬해서 for문으로 idx 알아내서 같이 보내기
-        # 랭킹매기는 함수(DB내에서)를 이용해서 구하고 조건을 통해서 받아오기
-        # Redis 이용..? (django에서 redis 이용하려면 -> https://velog.io/@may_soouu/django-redis)
-        # mysql에서 일정시간에 한번씩 랭킹을 계산하는 방법 -> 점수는 계속 점수테이블에 넣고, 서버에서 특정시간에 한번씩 랭킹 테이블에 계산한 값을 넣어주고, 클라에서는 랭킹테이블 값만 가져오면 됩니다. -> mysql 스케줄러 / 크론탭
-
+        ### REDIS로 처리하기
+        # now_rank = gameRanker.getRank(nickname)
+        rank_lists = gameRanker.findRank(nickname)
+        # print(rank_lists)
+        rank20 = {}
         
-        return render()
+        for rank, name, score in rank_lists:
+            item = dict({
+                'ranking' : rank,
+                'name' : name,
+                'score' : score
+            })
+            rank20['rank' + str(rank)] = item
+        # print(rank20)
+        
+        return render(request, 'MG/ranking_board.html', {'data': rank20})
 
 

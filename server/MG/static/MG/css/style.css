@@ -3079,12 +3079,15 @@ body::-webkit-scrollbar-thumb:hover {
     padding: 20px;
     margin-bottom: 30px;
 }
+/* CSS 변경 */
 #shop-cart-section .table thead tr th:first-child{
-    text-align: start;
+    /* text-align: start; */
 }
+/* CSS 변경
+    - font-size : 14px -> 16px */
 #shop-cart-section .table thead tr th{
     padding: 20px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 20px;
     color: var(--body-color);
     text-transform: uppercase;
@@ -3102,12 +3105,16 @@ body::-webkit-scrollbar-thumb:hover {
     width: 60%;
     margin-left: 5px;
 }
+/* CSS 변경
+    - font-size : 14px -> 18px
+    - padding : 0 -> 10px
+*/
 #shop-cart-section .table tbody tr th span,
 #shop-cart-section .table tbody tr td,
 #shop-cart-section .table tbody tr th{
-    font-size: 14px;
+    font-size: 18px;
     line-height: 20px;
-    padding: 0;
+    padding: 10px;
     color: var(--body-color);
     vertical-align: middle;
 }

@@ -40,19 +40,27 @@
                                     <th scope="col">Score</th>
                                     {% comment %} <th scope="col">Date</th> {% endcomment %}
                                 </thead>
-                                <tbody>
-                                    {% if data %}
-                                    {% for r in data %}
-                                    <tr style="margin:5%">
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{ r.name }}</td>
-                                        <td>{{ r.score }}</td>
-                                        {% comment %} <td>{{ r.date }}</td> {% endcomment %}
-                                    </tr>
-                                    {% endfor %}
+                                <tbody id="rank_table">
+                                    {% if data %}                                
+                                        <script>
+                                            let rows = {{ data | safe}};
+                                            let arr = ['ranking', 'name', 'score']
+                                            let tb = ''
+                                            for (var key in rows){
+                                                tb += '<tr style="margin:5px">'
+                                                console.log(rows[key])
+                                                for(var key2 in arr){
+                                                    console.log(rows[key][arr[key2]])
+                                                    tb += '<td>' + rows[key][arr[key2]] + '</td>'
+                                                }
+                                                tb += '</tr>'
+                                            }
+                                            //console.log(tb)
+                                            document.write(tb)
+                                        </script>
                                     {% else %}
                                     <tr>
-                                    <td colspan="3">해당 이름의 데이터가 없습니다.</td>
+                                    <td colspan="3">데이터가 없습니다.</td>
                                     </tr>
                                     {% endif %}
                                 </tbody>
@@ -69,8 +77,9 @@
                             </div>
                             <div class="bottom-side text-center">
                                 <form method="post">
+                                    {% csrf_token %}
                                     <div class="apply d-flex">
-                                        <input type="text" placeholder="Enter NickName">
+                                        <input type="text" name="nickname" placeholder="Enter NickName">
                                         <button class="cmn-btn">Apply</button>
                                     </div>
                                 </form>
