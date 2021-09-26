@@ -19,4 +19,5 @@ urlpatterns = [
     path('tourna/', views.tourna),
     path('tour/', views.tour),
     path('tour_sing/', views.tour_sing),
+    path('landmark_data/', views.landmark_data),
 ]
