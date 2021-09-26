@@ -39,10 +39,10 @@
 
                 <div class="row">
                     <div class="col-lg-8">
-                        <canvas id="unity-canvas" width=960 height=600 style="margin-left: 10%;"></canvas>
+                        <canvas id="unity-canvas" style="margin-left: 10%;"></canvas>
                     </div>
                     <div class="col-lg-4">
-                        <button id="webcam" class="cmn-btn" type="submit" style="margin-right: 20%; position: relative;">Webcam</button>
+                        <button id="webcam" class="cmn-btn" type="submit" style="margin-left: 20%; position: relative;">Webcam</button>
                     </div>
                     <div id="unity-loading-bar">
                     <div id="unity-progress-bar-empty">
@@ -53,12 +53,11 @@
 
         </div>
         <div id="unity-mobile-warning">
-        WebGL builds are not supported on mobile devices.
         </div>
         <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">New Unity Project</div>
+        <div id="unity-build-title"></div>
         </div>
     </div>
 
@@ -90,6 +89,7 @@
 
     {% comment %} </section> {% endcomment %}
     <!-- Testimonials Content End -->
+
 
 
     <script src="{% static 'MG/js/jquery-3.5.1.min.js' %}"></script>
