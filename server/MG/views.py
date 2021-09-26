@@ -8,35 +8,36 @@ from .models import RankingBoard
 from .redis_client import RedisRanker
 
 # Create your views here.
+def index(request):
+    '''처음 메인 화면'''
+    return render(request, 'MG/index.html ')
+
 def us(request):
     return render(request, 'MG/about-us.html')
 
 def cart(request):
     return render(request, 'MG/cart.html')
 
-def check(request):
+def checkout(request):
     return render(request, 'MG/check-out.html')
 
-def tact(request):
+def contact(request):
     return render(request, 'MG/contact.html')
 
-def err(request):
+def error(request):
     return render(request, 'MG/error.html')
 
-def fea(request):
+def features(request):
     return render(request, 'MG/features.html')
 
-def ind(request):
-    return render(request, 'MG/index.html ')
-
-def log(request):
+def login(request):
     return render(request, 'MG/login.html')
 
-def pro(request):
+def profile(request):
     return render(request, 'MG/profile.html')
 
-def ragist(request):
-    return render(request, 'MG/registratio.html')
+def registration(request):
+    return render(request, 'MG/registration.html')
 
 def shopdetail(request):
     return render(request, 'MG/shop-details.html')
@@ -125,7 +126,10 @@ def test():
         knn.save('KNNalgorithm')
 
     return knn
+
+
 def ranking_board(request):
+    '''ranking board 출력 화면 기능'''
 
     import redis
 
