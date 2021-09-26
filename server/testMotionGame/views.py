@@ -1,5 +1,6 @@
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render
+from .models import RankingBoard
 import cv2
 import numpy as np
 import mediapipe as mp
@@ -107,3 +108,12 @@ def test():
         knn.save('KNNalgorithm')
 
     return knn
+
+def ranking_board(request):
+    if request.method == 'GET':
+        top20 = RankingBoard.objects.order_by('-score')[:20] # 상위 20개
+        return render(request, 'testMotionGame/ranking_board.html', {'data': top20})
+    else: # 검색기능 필요
+        id = request.POST.get('id')
+
+    return render()

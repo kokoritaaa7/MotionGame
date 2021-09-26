@@ -4,7 +4,8 @@ import cv2
 import numpy as np
 import mediapipe as mp
 import json
-
+from .models import RankingBoard
+from .redis_client import RedisRanker
 
 # Create your views here.
 def us(request):
@@ -124,3 +125,46 @@ def test():
         knn.save('KNNalgorithm')
 
     return knn
+def ranking_board(request):
+
+    import redis
+
+    conn_redis = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
+    gameRanker = RedisRanker(conn_redis, "game", False)
+    
+
+    if request.method == 'GET':
+        top20_names = gameRanker.getTops()
+        top20 = {}
+        for idx, name in enumerate(top20_names):
+            item = dict({
+                'ranking':idx+1,
+                'name': name,
+                'score' : gameRanker.getScore(name)
+            })
+            top20['rank'+str(idx+1)] = (item)
+
+        print(top20)
+
+        return render(request, 'MG/ranking_board.html', {'data': top20})
+    else: # 검색 기능 필요
+        nickname = request.POST.get('nickname')
+
+        ### REDIS로 처리하기
+        # now_rank = gameRanker.getRank(nickname)
+        rank_lists = gameRanker.findRank(nickname)
+        # print(rank_lists)
+        rank20 = {}
+        
+        for rank, name, score in rank_lists:
+            item = dict({
+                'ranking' : rank,
+                'name' : name,
+                'score' : score
+            })
+            rank20['rank' + str(rank)] = item
+        # print(rank20)
+        
+        return render(request, 'MG/ranking_board.html', {'data': rank20})
+
+
