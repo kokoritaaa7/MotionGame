@@ -20,7 +20,7 @@
                             <div class="breadcrumb-area">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb d-flex justify-content-center">
-                                        <button class="cmn-btn" type="submit" onclick="location.href='http://127.0.0.1:8000/MG/ranking_board/'">랭킹 보러가기</button>
+                                        <button class="cmn-btn" type="submit" onclick="location.href='/MG/ranking_board/'">랭킹 보러가기</button>
                                     </ol>
                                 </nav>
                             </div>
@@ -31,7 +31,7 @@
         </div>
 
     </section>
-    <!-- banner-section end - 
+    <!-- banner-section end -->
 
     <!-- unity 게임 화면 (절대좌표)-->
     <div id="unity-container" class="unity-desktop">
@@ -39,10 +39,10 @@
 
                 <div class="row">
                     <div class="col-lg-8">
-                        <canvas id="unity-canvas" width=960 height=600 style="margin-left: 10%;"></canvas>
+                        <canvas id="unity-canvas" style="margin-left: 10%;"></canvas>
                     </div>
                     <div class="col-lg-4">
-                        <button id="webcam" class="cmn-btn" type="submit" style="margin-right: 20%; position: relative;">Webcam</button>
+                        <button id="webcam" class="cmn-btn" type="submit" style="margin-left: 20%; position: relative;">Webcam</button>
                     </div>
                     <div id="unity-loading-bar">
                     <div id="unity-progress-bar-empty">
@@ -53,12 +53,11 @@
 
         </div>
         <div id="unity-mobile-warning">
-        WebGL builds are not supported on mobile devices.
         </div>
         <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">New Unity Project</div>
+        <div id="unity-build-title"></div>
         </div>
     </div>
 
@@ -71,17 +70,14 @@
                 <div class="container pb-120">
                     <div class="col-lg-4">
                         <div class="right-sidebar"> 
-                            <div class="top-area">
-                                
-                                    <!-- 카메라 화면 -->
-                                    <div class="container1">
-                                        <video class="input_video" style="display:none;" ></video>
-                                    </div>
-
-                                    <canvas class="output_canvas"></canvas>
-                                    <div class = "frame"></div>
+                            <div class="top-area">                                
+                                <!-- 카메라 화면 -->
+                                <div class="container1">
+                                    <video class="input_video" style="display:none;" ></video>
+                                </div>
+                                <canvas class="output_canvas"></canvas>
+                                <div class = "frame"></div>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
