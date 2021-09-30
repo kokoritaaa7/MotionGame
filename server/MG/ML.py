@@ -4,6 +4,8 @@ import cv2
 import os
 import sys
 
+
+## MachineLearing 부분 따로 떼어서 코드 작성.
 def test():
     knn=None
     if os.path.isfile('C:/project3/MotionGame/server/TEMPLATES/KNNAlgorithm') :

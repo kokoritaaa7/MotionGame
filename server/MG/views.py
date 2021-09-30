@@ -95,6 +95,7 @@ def ranking_board(request):
         
         return render(request, 'MG/ranking_board.html', {'data': rank20})
 
+# 기존 landmark와 Machinelearning으로 이동.
 
 
 # <---------은수 코드 시작 --------->
