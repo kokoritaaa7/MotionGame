@@ -160,6 +160,9 @@ def ranking_board(request):
         # print(rank_lists)
         rank20 = {}
         
+        if rank_lists is None:
+            return render(request, 'MG/ranking_board.html', {'data': None})
+
         for rank, name, score in rank_lists:
             item = dict({
                 'ranking' : rank,
