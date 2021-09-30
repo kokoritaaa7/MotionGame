@@ -3,6 +3,12 @@
 {% block content %}
 {% include "./motiongesture.html" %}
 
+<style>
+    .modal-body h6, 
+    .modal-header h5 {
+        color:black;
+    }
+</style>
 
     <!-- banner-section start -->
     <section id="banner-section" class="inner-banner features shop">
@@ -86,6 +92,71 @@
 
     {% comment %} </section> {% endcomment %}
     <!-- Testimonials Content End -->
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+    Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered bd-example-modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Save your score at Ranking Board🏆</h5>
+                </div>
+                <div class="modal-body">
+                    <h6>Your Score is XXXX</h6>
+                    <h6>Ranking Board에 저장할 이름을 입력해주세요</h6><br>
+                    <input type="text" placeholder="Enter Your NickName" id="nickname">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="sendScore()">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>                    
+                    <!-- Save 버튼 누르면 AJAX로 가서 서버로 전달 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // 성준님 코드 ==> unity에서 ResultSave 함수 호출하도록 만들어놔서 이 이름으로 만들어야되고
+    // 따라서, 내부만 변경하면 됨
+    // 클릭도 필요 없음 -> 유니티에서 버튼 있는거니까  
+      function ResultSave(score){
+          const default_name = "이름을 입력해주세요."
+
+          const name = window.prompt("Score : " + score, default_name)
+          if(name === default_name || name === null){
+            alert("취소했습니다.")
+          }else{
+            alert(name + " 님 점수 : " + score)
+          }
+      }
+    </script>
+
+    <script>
+        function sendScore() {
+
+            let nickname = document.getElementById('nickname')
+
+            $.ajax({
+                url:'/MG/sendScore',
+                type:'',
+                data:{
+                    'id': nickname,
+                    'score': ''
+                },
+                success: function(res){
+                    location.href="/MG/ranking_board"
+                    // modal 끄고 Ranking Board로 이동
+                },
+                error: function(err){
+                    //alert?
+                }
+            });
+        }
+    </script>
 
 
     <script src="{% static 'MG/js/jquery-3.5.1.min.js' %}"></script>
