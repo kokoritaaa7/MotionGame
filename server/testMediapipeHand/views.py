@@ -34,11 +34,25 @@ def home(request):
 #     return knn
 
 ### [문제1] Video는 화면전환 안되어있어서 q/w/e/r이 반대로 찍히는 문제 발생 -> r/e/w/q 로 순서를 걍 바꿔버림 (해결?임시방편?)
-### [문제2] testMediaPipeHand 이동하면 JS Console에 에러가 찍히는 문제
-### [문제3] 카메라에 손을 내리면 마지막에 저장된 location을 계속 출력하는 문제 
+### [문제2] testMediaPipeHand 이동하면 JS Console에 에러가 찍히는 문제 -> 
+### [문제3] 카메라에 손을 내리면 마지막에 저장된 location을 계속 출력하는 문제  -> ajax 통신후 좌표값을 전달하면 랜드마크를 저장하는 X를 NaN으로 초기화
 #   -> 전달된 landmark가 없으니까 마지막으로 저장된 location값을 찍는 것 같음 (추측)
 def landmark_data(request):
     knn = test() # 일단 Model 저장하는 부분 안되는 것 같아서 test 함수로 진행
+<<<<<<< HEAD
+    try :
+        if request.method == 'POST':
+            # print("HERE>>>")
+            landmark = request.POST.get('landmarks')
+            landmark_to_json = json.loads(landmark)
+            # print(landmark_to_json['landmarks'])
+            location = sendResult(landmark_to_json, knn)
+
+
+        return JsonResponse({'location' : location})
+    except :
+        return JsonResponse({'location' : 'None'})
+=======
     if request.method == 'POST':
         # print("HERE>>>")
         landmark = request.POST.get('landmarks')
@@ -47,6 +61,7 @@ def landmark_data(request):
         location = sendResult(landmark_to_json, knn)
 
     return JsonResponse({'location' : location})
+>>>>>>> parent of 7cd3d4d (커맨드전송코드 추가중)
 
 def sendResult(landmarks, knn):
     # KNN 계산값 MediaPipe에 전달
