@@ -55,26 +55,9 @@ def tour(request):
 def tour_sing(request):
     return render(request, 'MG/tour_sing.html')
 
-def ranking_board(request):
-# 게임
 
-def landmark_data(request):
-    knn = test() # 일단 Model 저장하는 부분 안되는 것 같아서 test 함수로 진행
-    if request.method == 'POST':
-        # print("HERE>>>")
-        landmark = request.POST.get('landmarks')
-        landmark_to_json = json.loads(landmark)
-        # print(landmark_to_json['landmarks'])
-        location = sendResult(landmark_to_json, knn)
 
-    return JsonResponse({'location' : location})
 
-def sendResult(landmarks, knn):
-    # KNN 계산값 MediaPipe에 전달
-    joint = np.zeros((21, 3))
-    xloc, yloc  =[], []
-    x, y = 0, 0
-    location=''
         
     for j, lm in enumerate(landmarks['landmarks']):
         joint[j] = [lm['x'], lm['y'], lm['z']]

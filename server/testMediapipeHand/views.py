@@ -39,7 +39,6 @@ def home(request):
 #   -> 전달된 landmark가 없으니까 마지막으로 저장된 location값을 찍는 것 같음 (추측)
 def landmark_data(request):
     knn = test() # 일단 Model 저장하는 부분 안되는 것 같아서 test 함수로 진행
-<<<<<<< HEAD
     try :
         if request.method == 'POST':
             # print("HERE>>>")
@@ -52,7 +51,7 @@ def landmark_data(request):
         return JsonResponse({'location' : location})
     except :
         return JsonResponse({'location' : 'None'})
-=======
+
     if request.method == 'POST':
         # print("HERE>>>")
         landmark = request.POST.get('landmarks')
@@ -61,7 +60,7 @@ def landmark_data(request):
         location = sendResult(landmark_to_json, knn)
 
     return JsonResponse({'location' : location})
->>>>>>> parent of 7cd3d4d (커맨드전송코드 추가중)
+
 
 def sendResult(landmarks, knn):
     # KNN 계산값 MediaPipe에 전달
