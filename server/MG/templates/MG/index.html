@@ -15,9 +15,9 @@
                                 <p>Compete in Free and Paid entry Tournaments. Transform your
                                     games to real money eSports</p>
                                 <div class="btn-play d-flex justify-content-center align-items-center">
-                                    <a href="registration.html" class="cmn-btn">Get Started</a>
+                                    <a href="/MG/registration" class="cmn-btn">Get Started</a>
                                     <a href="https://www.youtube.com/watch?v=MJ0zpsWQ_XM" class="mfp-iframe popupvideo">
-                                        <img src="{% static 'mg/images/play-icon.png'  %}" alt="play">
+                                        <img src="{% static 'MG/images/play-icon.png'  %}" alt="play">
                                     </a>
                                 </div>
                             </div>
@@ -25,9 +25,9 @@
                                 <div class="col-lg-12">
                                     <div class="row justify-content-center">
                                         <div class="col-lg-6">
-                                            <div class="bottom-area text-center">
-                                                <img src="{% static 'MG/images/versus.png'  %}" alt="banner-vs">
-                                            </div>
+                                                <div class="bottom-area text-center">
+                                                    <img src="{% static 'MG/images/versus.png'  %}" alt="banner-vs">
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div class="btn-area text-center">
-                        <a href="tournaments.html" class="cmn-btn">View All</a>
+                        <a href="tour" class="cmn-btn">View All</a>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
     <!-- Available Game In end -->
 
     <!-- How Works start -->
-    <section id="how-works-section" class="border-area">
+    {% comment %} <section id="how-works-section" class="border-area">
         <div class="overlay pt-120 pb-120">
             <div class="container wow fadeInUp">
                 <div class="row d-flex justify-content-center">
@@ -143,12 +143,12 @@
                 </div>
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-6 text-center">
-                        <a href="registration.html" class="cmn-btn">Join Now!</a>
+                        <a href="/MG/registration" class="cmn-btn">Join Now!</a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
     <!-- How Works end -->
 
     <!-- Browse Tournaments start -->
@@ -164,7 +164,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mb-40 mp-none">
+                {% comment %} <div class="row mb-40 mp-none">
                     <div class="col-lg-3 col-md-3">
                         <div class="single-input">
                             <span>Status</span>
@@ -207,7 +207,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
+                </div> {% endcomment %}
                 <div class="single-item">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 d-flex align-items-center">
@@ -255,7 +255,7 @@
                                 <div class="contain-area">
                                     <span class="prize"><img src="{% static 'MG/images/price-coin.png'  %}" alt="image">prize</span>
                                     <h4 class="dollar">$739</h4>
-                                    <a href="tournaments-single.html" class="cmn-btn">View Tournament</a>
+                                    <a href="/MG/tourna" class="cmn-btn">View Tournament</a>
                                     <p>Top 3 Players Win a Cash Prize</p>
                                 </div>
                             </div>
@@ -309,7 +309,7 @@
                                 <div class="contain-area">
                                     <span class="prize"><img src="{% static 'MG/images/price-coin.png'  %}" alt="image">prize</span>
                                     <h4 class="dollar">$854</h4>
-                                    <a href="tournaments-single.html" class="cmn-btn">View Tournament</a>
+                                    <a href="/MG/tourna" class="cmn-btn">View Tournament</a>
                                     <p>Top 3 Players Win a Cash Prize</p>
                                 </div>
                             </div>
@@ -363,7 +363,7 @@
                                 <div class="contain-area">
                                     <span class="prize"><img src="{% static 'MG/images/price-coin.png'  %}" alt="image">prize</span>
                                     <h4 class="dollar">$105</h4>
-                                    <a href="tournaments-single.html" class="cmn-btn">View Tournament</a>
+                                    <a href="/MG/tourna" class="cmn-btn">View Tournament</a>
                                     <p>Top 3 Players Win a Cash Prize</p>
                                 </div>
                             </div>
@@ -417,7 +417,7 @@
                                 <div class="contain-area">
                                     <span class="prize"><img src="{% static 'MG/images/price-coin.png'  %}" alt="image">prize</span>
                                     <h4 class="dollar">$473</h4>
-                                    <a href="tournaments-single.html" class="cmn-btn">View Tournament</a>
+                                    <a href="/MG/tourna" class="cmn-btn">View Tournament</a>
                                     <p>Top 3 Players Win a Cash Prize</p>
                                 </div>
                             </div>
@@ -471,7 +471,7 @@
                                 <div class="contain-area">
                                     <span class="prize"><img src="{% static 'MG/images/price-coin.png'  %}" alt="image">prize</span>
                                     <h4 class="dollar">$778</h4>
-                                    <a href="tournaments-single.html" class="cmn-btn">View Tournament</a>
+                                    <a href="/MG/tourna" class="cmn-btn">View Tournament</a>
                                     <p>Top 3 Players Win a Cash Prize</p>
                                 </div>
                             </div>
@@ -484,7 +484,7 @@
     <!-- Browse Tournaments end -->
 
     <!-- Counter In start -->
-    <section id="counter-section">
+    {% comment %} <section id="counter-section">
         <div class="overlay pt-120 pb-120">
             <div class="container">
                 <div class="row mp-none">
@@ -527,11 +527,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
     <!-- Counter In end -->
 
     <!-- Players of the Week In start -->
-    <section id="players-week-section">
+    {% comment %} <section id="players-week-section">
         <div class="overlay pt-120 pb-120">
             <div class="container wow fadeInUp">
                 <div class="row justify-content-center">
@@ -551,7 +551,7 @@
                                     <img src="{% static 'MG/images/player-1.png' %}" alt="image">
                                 </div>
                             </div>
-                            <a href="profile.html"><h5>Barton Griggs</h5></a>
+                            <a href="/MG/profile"><h5>Barton Griggs</h5></a>
                             <p class="date">
                                 <span class="text-sm earn">1970 XP Earned</span>
                                 <span class="text-sm">04/05 - 04/12</span>
@@ -559,7 +559,7 @@
                             <p class="text-sm credit">
                                 <span class="text-sm"><img src="{% static 'MG/images/credit-icon.png' %}" alt="image"> +20 credits</span>
                             </p>
-                            <a href="profile.html" class="cmn-btn">View Profile</a>
+                            <a href="/MG/profile" class="cmn-btn">View Profile</a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
@@ -572,7 +572,7 @@
                                     <img src="{% static 'MG/images/player-2.png' %}" alt="image">
                                 </div>
                             </div>
-                            <a href="profile.html"><h5>Mervin Trask</h5></a>
+                            <a href="/MG/profile"><h5>Mervin Trask</h5></a>
                             <p class="date">
                                 <span class="text-sm earn">1970 XP Earned</span>
                                 <span class="text-sm">04/05 - 04/12</span>
@@ -580,7 +580,7 @@
                             <p class="text-sm credit">
                                 <span class="text-sm"><img src="{% static 'MG/images/credit-icon.png' %}" alt="image"> +20 credits</span>
                             </p>
-                            <a href="profile.html" class="cmn-btn">View Profile</a>
+                            <a href="/MG/profile" class="cmn-btn">View Profile</a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
@@ -590,7 +590,7 @@
                                     <img src="{% static 'MG/images/player-3.png' %}" alt="image">
                                 </div>
                             </div>
-                            <a href="profile.html"><h5>Adria Poulin</h5></a>
+                            <a href="/MG/profile"><h5>Adria Poulin</h5></a>
                             <p class="date">
                                 <span class="text-sm earn">1970 XP Earned</span>
                                 <span class="text-sm">04/05 - 04/12</span>
@@ -598,17 +598,17 @@
                             <p class="text-sm credit">
                                 <span class="text-sm"><img src="{% static 'MG/images/credit-icon.png' %}" alt="image"> +20 credits</span>
                             </p>
-                            <a href="profile.html" class="cmn-btn">View Profile</a>
+                            <a href="/MG/profile" class="cmn-btn">View Profile</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
     <!-- Players of the Week In end -->
 
     <!-- Features In start -->
-    <section id="features-section">
+    {% comment %} <section id="features-section">
         <div class="overlay pt-120">
             <div class="container wow fadeInUp">
                 <div class="row justify-content-center">
@@ -677,11 +677,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
     <!-- Features In end -->
 
     <!-- Call to Action In start -->
-    <section id="call-to-action">
+    {% comment %} <section id="call-to-action">
         <div class="overlay pt-120 pb-120">
             <div class="container">
                 <div class="main-content">
@@ -696,7 +696,7 @@
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center">
                             <div class="btn-area d-flex justify-content-center justify-content-sm-end align-items-center">
-                                <a href="registration.html" class="cmn-btn">Join Now</a>
+                                <a href="/MG/registration" class="cmn-btn">Join Now</a>
                             </div>
                             <img src="{% static 'MG/images/call-to-action-right.png' %} "alt="image">
                         </div>
@@ -704,11 +704,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
     <!-- Call to Action In end -->
 
     <!-- Testimonials In start -->
-    <section id="testimonials-section">
+    {% comment %} <section id="testimonials-section">
         <div class="overlay pt-120 pb-120">
             <div class="container wow fadeInUp">
                 <div class="row justify-content-center">
@@ -786,11 +786,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
     <!-- Testimonials In end -->
 
     <!-- Call Action In start -->
-    <section id="call-action" class="pb-120">
+    {% comment %} <section id="call-action" class="pb-120">
         <div class="overlay">
             <div class="container wow fadeInUp">
                 <div class="row d-flex justify-content-between align-items-center">
@@ -798,7 +798,7 @@
                         <div class="left-area">
                             <h2 class="title">Build Your Esports Profile</h2>
                             <p>Showcase your achievements, match history and win rate while you build your reputation on Begam.</p>
-                            <a href="registration.html" class="cmn-btn-second">Sign Up Free</a>
+                            <a href="/MG/registration" class="cmn-btn-second">Sign Up Free</a>
                         </div>
                     </div>
                     <div class="col-lg-5 col-md-6">
@@ -809,7 +809,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
     <!-- Call Action In end -->
 
     <script src="{% static 'MG/js/jquery-3.5.1.min.js' %}"></script>
@@ -819,7 +819,7 @@
     <script src="{% static 'MG/js/fontawesome.js' %}"></script>
     <script src="{% static 'MG/js/jquery.counterup.min.js' %}"></script>
     <script src="{% static 'MG/js/jquery.waypoints.min.js' %}"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="{% static 'MG/js/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'MG/js/wow.js' %}"></script>
     <script src="{% static 'MG/js/main.js' %}"></script>
 

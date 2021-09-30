@@ -1,7 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@200&family=Do+Hyeon&display=swap');
 
-body { padding: 0; margin: 0; font-family: 'Do Hyeon', sans-serif; background: url("https://www.sciencetimes.co.kr/wp-content/uploads/2020/08/GettyImages-1219869455-scaled.jpg");}
+body { padding: 0; margin: 0; font-family: 'Do Hyeon', sans-serif;}
 #unity-container { position: absolute }
 #unity-container.unity-desktop { left: 50%; top: 50%; transform: translate(-50%, -50%) }
 #unity-container.unity-mobile { width: 100%; height: 100% }
@@ -29,13 +29,13 @@ body { padding: 0; margin: 0; font-family: 'Do Hyeon', sans-serif; background: u
     background-size: contain;
 }
 
-.star{
-    background: url("https://www.sciencetimes.co.kr/wp-content/uploads/2020/08/GettyImages-1219869455-scaled.jpg") no-repeat center/cover;
-    height: 1000px;
-    overflow: hidden;
-    position: inherit;
-    background-size: cover;
-  }
+.output_canvas{
+  right: 15%;
+  top:15%;
+  width: 25%;
+  height: 30%;
+  position: absolute;
+}
 
 .unity-desktop1 {
     left: 50%; 
@@ -43,13 +43,7 @@ body { padding: 0; margin: 0; font-family: 'Do Hyeon', sans-serif; background: u
     transform: translate(5%, -150%);
   }
 
-.output_canvas{
-    right: 15%;
-    top:15%;
-    width: 25%;
-    height: 30%;
-    position: absolute;
-}
+
 
 .container-1{
   transform: translate(10%, -180%);

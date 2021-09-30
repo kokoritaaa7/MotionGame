@@ -20,8 +20,9 @@
     var frame_count = 0;
     var csrf_token = '{{ csrf_token }}';
     var xhr = new XMLHttpRequest();
-    
+
     var key='None'
+
     let x=[];
 
     var handInfo = (function(){
@@ -148,6 +149,7 @@
 
     var instance;
 
+
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       container.className = "unity-mobile";
       config.devicePixelRatio = 1;
@@ -160,13 +162,13 @@
       canvas.style.height = "600px";
     }
     loadingBar.style.display = "block";
+
     var script = document.createElement("script");
     script.src = loaderUrl;
     script.onload = () => {
       createUnityInstance(canvas, config, (progress) => {
         progressBarFull.style.width = 100 * progress + "%";
       }).then((unityInstance) => {
-        
         instance=unityInstance
         loadingBar.style.display = "none";
         fullscreenButton.onclick = () => {
@@ -179,13 +181,11 @@
       });
     };
     document.body.appendChild(script);
-    
     setInterval(function(){
       key=document.getElementById('unity-command').className
       instance.SendMessage("RhythmCore4Tracks", "KeyDown", key)
       // 여기서 unity 관련 에러 해결해야함..
     },1000)
-
 
 
   </script>
