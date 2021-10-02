@@ -1,29 +1,12 @@
-{% load static %}
-
-
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
-
-
-
-
-  <!-- 모션인식 스크립트 -->
-  <script type="module">
-    const videoElement = document.getElementsByClassName('input_video')[0];
+const videoElement = document.getElementsByClassName('input_video')[0];
     const canvasElement = document.getElementsByClassName('output_canvas')[0];
     const canvasCtx = canvasElement.getContext('2d');
     
     var frame_count = 0;
     var csrf_token = '{{ csrf_token }}';
     var xhr = new XMLHttpRequest();
-
-    var key='None'
-
-    let x=[];
+    
+    let x;
 
     var handInfo = (function(){
         const handInfo = {
@@ -149,7 +132,6 @@
 
     var instance;
 
-
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       container.className = "unity-mobile";
       config.devicePixelRatio = 1;
@@ -169,10 +151,10 @@
       createUnityInstance(canvas, config, (progress) => {
         progressBarFull.style.width = 100 * progress + "%";
       }).then((unityInstance) => {
-        instance=unityInstance
         loadingBar.style.display = "none";
         fullscreenButton.onclick = () => {
           unityInstance.SetFullscreen(1);
+          instance=unityInstance
         };
         controller = makeController(key => unityInstance.SendMessage("RhythmCore4Tracks", "KeyDown", key), key => unityInstance.SendMessage("RhythmCore4Tracks", "KeyUp", key));
         handInfo.setPosCallback = handInfo => unityInstance.SendMessage("InputManager", "SetPos", handInfo) 
@@ -181,14 +163,63 @@
       });
     };
     document.body.appendChild(script);
+    
+
+
+    
+    //모션 동작 보내기
+
+
+    let v;
+    
+    function onResults(results) {
+      canvasCtx.save();
+      canvasCtx.translate(canvasElement.width, 0);
+      canvasCtx.scale(-1,1);
+      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+      canvasCtx.drawImage(
+          results.image, 0, 0, canvasElement.width, canvasElement.height);
+      if (results.multiHandLandmarks) {
+        for (const landmarks of results.multiHandLandmarks) {
+        
+
+          v = JSON.stringify({landmarks})
+          
+
+          drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
+                         {color: '#00FF00', lineWidth: 5});
+          drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
+        }
+      }
+      canvasCtx.restore();
+    }
+    let s=0;
+
     setInterval(function(){
-      key=document.getElementById('unity-command').className
-      
-      controller = makeController(key => unityInstance.SendMessage("RhythmCore4Tracks", "KeyDown", key), key => unityInstance.SendMessage("RhythmCore4Tracks", "KeyUp", key));
-      // 여기서 unity 관련 에러 해결해야함..
-    },1000)
+      $.ajax({
+            url: '../landmark_data/',
+            type: 'POST',
+            data: {'landmarks' : v },
+            dataType : 'json',
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader('X-CSRFToken', csrf_token);
+            },
+          success:function(res){
+              console.log(res)
+            if (res['location']=='None'){
+              console.log('there is no landmarks');
+            }
+            else {
+              x=NaN;
+              console.log(res['location']);
+              console.log(instance)
 
-
-  </script>
-
-</html>
+            }
+          },
+          error:function(){
+            x=NaN
+            console.log('error')
+          }
+      })
+    }, 100) // n밀리초에 한 번씩 전송 // 해당 페이지가 아니더라도 0.1초에 한번씩 데이터 전송하는 것 같음 (Console에 자꾸 에러 찍힘)
+    

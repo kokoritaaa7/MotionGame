@@ -48,7 +48,7 @@ def landmark_data(request):
         location = sendResult(landmark_to_json, knn)
 
     return JsonResponse({'location' : location})
-
+''''''
 def sendResult(landmarks, knn):
     # KNN 계산값 MediaPipe에 전달
     joint = np.zeros((21, 3))

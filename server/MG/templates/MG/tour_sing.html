@@ -3,12 +3,14 @@
 {% block content %}
 {% include "./motiongesture.html" %}
 
+
 <style>
     .modal-body h6, 
     .modal-header h5 {
         color:black;
     }
 </style>
+
 
     <!-- banner-section start -->
     <section id="banner-section" class="inner-banner features shop">
@@ -26,6 +28,7 @@
                             <div class="breadcrumb-area">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb d-flex justify-content-center">
+                                        <a href="랭킹">랭킹 보러가기</a></li>
                                         <li class="breadcrumb-item"><a href="/MG/ranking_board/">랭킹 보러가기</a></li>
                                     </ol>
                                 </nav>
@@ -83,17 +86,100 @@
         </div>
     </div>
 
+
+    <!-- unity 게임 화면 (절대좌표)-->
+    <div id="unity-container" class="unity-desktop">
+        <canvas id="unity-canvas" width=960 height=600 style="margin-left: 10%;"></canvas>
+        <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+            <div id="unity-progress-bar-full"></div>
+        </div>
+        </div>
+        <div id="unity-mobile-warning">
+        WebGL builds are not supported on mobile devices.
+        </div>
+        <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">New Unity Project</div>
+        <div id="unity-command" name='None' style="display: none;"></div>
+        </div>
+    </div>
+
+
     <!-- Testimonials Content Start -->
     {% comment %} <section id="tournaments-content"> {% endcomment %}
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="overview" role="tabpanel"
                 aria-labelledby="overview-tab">
                 <div class="container pb-120">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            {% comment %} <h4 class="head-area">Motion Game</h4>
+                            <div class="row wrapper">
+
+                            </div>
+                            <div class="info-area">
+                                <h4>Information</h4>
+                                <div class="single-info">
+                                    <h5>Format</h5>
+                                    <ul>
+                                        <li>Map pool: Selected Aim Maps</li>
+                                        <li>All kind of cheating will result in a permanent suspension from Begam.</li>
+                                        <li>Playing with a cheater will result in a 3 month suspension from Begam.</li>
+                                        <li>Toxic behaviour will cause warnings and in severe cases both disqualifications and
+                                            suspensions.</li>
+                                    </ul>
+                                </div>
+                                <div class="single-info">
+                                    <h5>Prize Claim</h5>
+                                    <p>Prize claims must be completed within 24 hours of the end of the tournament
+                                        otherwise risk penalty of the prize. Claims can take up to 72 hours to be processed.</p>
+                                </div>
+                                <div class="single-info">
+                                    <h5>Rules</h5>
+                                    <ul>
+                                        <li>Please be respectful to your host and other participants. If any malicious behavior
+                                            is reported, you will be removed from the tournament.</li>
+                                        <li>Please be on time for your registration and for the actual tournament. You
+                                            (and your team) will be disqualified on no-show.</li>
+                                        <li>You and all of your teammates must be registered to qualify for the event.</li>
+                                        <li>You can play in this tournament only if your registered and in-game names match,
+                                            otherwise you will be disqualified.</li>
+                                    </ul>
+                                </div>
+                            </div> {% endcomment %}
+                            {% comment %} <div class="magnific-area">
+                                <img src="{% static 'MG/images/magnific-bg.png' %}" alt="image">
+                                <a href="https://www.youtube.com/watch?v=MJ0zpsWQ_XM" class="mfp-iframe popupvideo">
+                                    <img src="{% static 'MG/images/play-icon-2.png' %}" alt="image">
+                                </a>
+                            </div> {% endcomment %}
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="sidebar">
+                                <div class="single-side">
+                                    <button class="cmn-btn" type="submit">Webcame</button>
+                                        <!-- 카메라 화면 -->
+                                        <div class="container1">    
+                                            <video class="input_video" style="display: None;"></video>
+                                            <canvas class="output_canvas" width="1280px" height="720px"></canvas>
+                                        </div>
+
+                                        <canvas class="output_canvas"></canvas>
+                                        <div class = "frame"></div>
+                                </div>
+                                
+                                
+                            </div>
+
                     <div class="col-lg-4">
                         <div class="right-sidebar"> 
                             <div class="top-area">
 
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -192,6 +278,106 @@
     <script src="{% static 'MG/js/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'MG/js/wow.js' %}"></script>
     <script src="{% static 'MG/js/main.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+
+    <script type="module">
+
+
+
+
+
+
+
+    const videoElement = document.getElementsByClassName('input_video')[0];
+    const canvasElement = document.getElementsByClassName('output_canvas')[0];
+    const canvasCtx = canvasElement.getContext('2d');
+
+    var csrf_token = '{{ csrf_token }}';
+    var xhr = new XMLHttpRequest();
+    
+    let x;
+    
+    function onResults(results) {
+      canvasCtx.save();
+      canvasCtx.translate(canvasElement.width, 0);
+      canvasCtx.scale(-1,1);
+      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+      canvasCtx.drawImage(
+          results.image, 0, 0, canvasElement.width, canvasElement.height);
+      if (results.multiHandLandmarks) {
+        for (const landmarks of results.multiHandLandmarks) {
+        
+
+          x = JSON.stringify({landmarks})
+          
+
+          drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
+                         {color: '#00FF00', lineWidth: 5});
+          drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
+        }
+      }
+      canvasCtx.restore();
+    }
+    let s=0;
+    let t
+    setInterval(function(){
+      $.ajax({
+            url: '../landmark_data/',
+            type: 'POST',
+            data: {'landmarks' : x },
+            dataType : 'json',
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader('X-CSRFToken', csrf_token);
+            },
+          success:function(res){
+              console.log(res)
+            if (res['location']=='None'){
+              console.log('there is no landmarks');
+              t=document.getElementById('unity-command').className=res['locaiton']
+            }
+            else {
+              x=NaN;
+              console.log(res['location']);
+              t=document.getElementById('unity-command').className=res['locaiton']
+
+            }
+          },
+          error:function(){
+            x=NaN
+            t=document.getElementById('unity-command').className=res['None']
+            console.log('error')
+            //데이터를 클라이언트로 보내서 해결
+          }
+      })
+    }, 1000) // n밀리초에 한 번씩 전송 // 해당 페이지가 아니더라도 0.1초에 한번씩 데이터 전송하는 것 같음 (Console에 자꾸 에러 찍힘)
+    
+    const hands = new Hands({locateFile: (file) => {
+      return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+    }});
+    hands.setOptions({
+      maxNumHands: 2,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5
+    });
+    hands.onResults(onResults);
+    
+    const camera = new Camera(videoElement, {
+      onFrame: async () => {
+        await hands.send({image: videoElement});
+      },
+      width: 1280,
+      height: 720
+    });
+    camera.start();
+
+    
+
+    </script>
 
 
 
