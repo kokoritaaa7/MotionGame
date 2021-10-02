@@ -64,9 +64,9 @@
     </div>
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+    {% comment %} <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
         Launch demo modal
-    </button>
+    </button> {% endcomment %}
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -93,36 +93,36 @@
     // 성준님 코드 ==> unity에서 ResultSave 함수 호출하도록 만들어놔서 이 이름으로 만들어야되고
     // 따라서, 내부만 변경하면 됨
     // 클릭도 필요 없음 -> 유니티에서 버튼 있는거니까  
-      function ResultSave(score){
-          const default_name = "이름을 입력해주세요."
-
-          const name = window.prompt("Score : " + score, default_name)
-          if(name === default_name || name === null){
-            alert("취소했습니다.")
-          }else{
-            alert(name + " 님 점수 : " + score)
-          }
-      }
+        function ResultSave(score){
+            let text = 'Your Score is ' + score;
+            document.getElementById('modal-score').InnerHTML = text
+            document.getElementById('hiddenScore').InnerHTML = score
+            jQuery(document).ready(function () {
+                $("#exampleModalCenter").show();
+            });
+        }
     </script>
 
     <script>
         function sendScore() {
-
             let nickname = document.getElementById('nickname')
+            let score = document.getElementById('hiddenScore')
 
             $.ajax({
                 url:'/MG/sendScore',
-                type:'',
+                type:'GET',
                 data:{
                     'id': nickname,
-                    'score': ''
+                    'score': score
                 },
                 success: function(res){
-                    location.href="/MG/ranking_board"
+                    if(res.flag === 0)
+                        alert(nickname + '중복')
+                    location.href = "/MG/ranking_board"
                     // modal 끄고 Ranking Board로 이동
                 },
                 error: function(err){
-                    //alert?
+                    alert(nickname + "님 점수가 저장되지 않았습니다")
                 }
             });
         }
