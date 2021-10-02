@@ -8,15 +8,15 @@ import sys
 ## MachineLearing 부분 따로 떼어서 코드 작성.
 def test():
     knn=None
-    if os.path.isfile('C:/project3/MotionGame/server/TEMPLATES/KNNAlgorithm') :
-        knn = cv2.ml_KNearest.load('C:/project3/MotionGame/server/TEMPLATES/KNNAlgorithm')
+    if os.path.isfile('TEMPLATES/KNNAlgorithm') :
+        knn = cv2.ml_KNearest.load('TEMPLATES/KNNAlgorithm')
     else :
-        file = np.genfromtxt('C:/project3/MotionGame/server/TEMPLATES/gesture_train.csv', delimiter=',')
+        file = np.genfromtxt('TEMPLATES/gesture_train.csv', delimiter=',')
         angle = file[:,:-1].astype(np.float32)
         label = file[:, -1].astype(np.float32)
         knn = cv2.ml.KNearest_create()
         knn.train(angle, cv2.ml.ROW_SAMPLE, label)
-        knn.save('C:/project3/MotionGame/server/TEMPLATES/KNNAlgorithm')
+        knn.save('TEMPLATES/KNNAlgorithm')
         
     return knn
 
