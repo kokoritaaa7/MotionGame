@@ -28,7 +28,7 @@ public class JSController : MonoBehaviour
     int testNum;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         leftHandPos = 0;
         rightHandPos = 0;
@@ -42,7 +42,7 @@ public class JSController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
 #if UNITY_EDITOR
         testNum++;

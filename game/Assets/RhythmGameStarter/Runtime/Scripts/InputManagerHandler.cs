@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+#if false
 public class InputManagerHandler : MonoBehaviour
 {
     public Vector3[] hands;
@@ -77,3 +78,4 @@ public class InputManagerHandler : MonoBehaviour
         handPointers[handType].SetActive(isVisible);
     }
 }
+#endif
