@@ -4,7 +4,7 @@ from django.urls.conf import include
 from . import views
 
 urlpatterns = [
-    path('', views.index, name=''),
+    path('', views.index),
     path('tour_sing/', views.tour_sing, name='sing'),
     path('landmark_data/', views.landmark_data, name='landmark'),
     path('ranking_board/', views.ranking_board, name='ranking'),
