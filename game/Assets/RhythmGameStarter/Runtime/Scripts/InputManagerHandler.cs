@@ -14,19 +14,22 @@ public class InputManagerHandler : MonoBehaviour
     {
         height = Screen.height;
         width = Screen.width;
+
+        handPointers[0].SetActive(false);
+        handPointers[1].SetActive(false);
     }
 
     public void Update()
     {
-        for (int i=0; i<2; i++)
-        {
-            if (handPointers[i].activeSelf)
-            {
-                handPointers[i].transform.position = hands[i];
+        //for (int i=0; i<2; i++)
+        //{
+        //    if (handPointers[i].activeSelf)
+        //    {
+        //        handPointers[i].transform.position = hands[i];
 
-                Debug.Log(handPointers[i].transform.position.ToString());
-            }
-        }
+        //        Debug.Log(handPointers[i].transform.position.ToString());
+        //    }
+        //}
     }
 
     public void SetPos(string handInfo)

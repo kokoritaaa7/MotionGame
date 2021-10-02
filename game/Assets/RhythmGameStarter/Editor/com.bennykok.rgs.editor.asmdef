@@ -1,10 +1,12 @@
 {
     "name": "com.bennykok.rgs.editor",
+    "rootNamespace": "",
     "references": [
         "GUID:ad0640414aa49284c86e79cdc4c083ad"
     ],
     "includePlatforms": [
-        "Editor"
+        "Editor",
+        "WebGL"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
