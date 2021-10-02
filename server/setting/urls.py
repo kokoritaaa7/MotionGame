@@ -25,4 +25,5 @@ urlpatterns = [
     path('testMediapipeHand/', include('testMediapipeHand.urls'), name='testMediapipeHand'),
     path('testMotionGame/', include('testMotionGame.urls'), name='testMotionGame'),
     path('MG/', include('MG.urls'), name='MG'),
+    path('sjbae/', include('sjbae.urls')),
 ]
