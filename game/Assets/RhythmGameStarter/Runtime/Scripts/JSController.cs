@@ -51,7 +51,7 @@ public class JSController : MonoBehaviour
         {
             leftHandPos = Random.Range(0, maxLineNumber + 1);
             rightHandPos = Random.Range(0, maxLineNumber + 1);
-            Debug.Log(" leftHandPos/rightHandPos" + leftHandPos + rightHandPos);
+            //Debug.Log(" leftHandPos/rightHandPos" + leftHandPos + rightHandPos);
         }
 
         if(testNum % 5 == 0)
@@ -130,7 +130,7 @@ public class JSController : MonoBehaviour
     public void OnClickSaveScore()
     {
         int score = int.Parse(GameObject.Find("Score").GetComponent<TextMeshProUGUI>().text);
-        Debug.Log("OnClickSaveScore > score : " + score);
+        //Debug.Log("OnClickSaveScore > score : " + score);
         ResultSave(score);
     }
 }
