@@ -51,7 +51,6 @@ public class JSController : MonoBehaviour
         {
             leftHandPos = Random.Range(0, maxLineNumber + 1);
             rightHandPos = Random.Range(0, maxLineNumber + 1);
-            //Debug.Log(" leftHandPos/rightHandPos" + leftHandPos + rightHandPos);
         }
 
         if(testNum % 5 == 0)
@@ -85,14 +84,7 @@ public class JSController : MonoBehaviour
     {
         if (leftHandPos != pos)
         {
-            if (leftHandPos >= 1 && leftHandPos <= maxLineNumber)
-            {
-                leftHandPos = pos;
-            }
-            else
-            {
-                leftHandPos = 0;
-            }
+            leftHandPos = pos;
         }
     }
 
@@ -100,37 +92,37 @@ public class JSController : MonoBehaviour
     {
         if (rightHandPos != pos)
         {
-            if (rightHandPos >= 1 && rightHandPos <= maxLineNumber)
-            {
-                rightHandPos = pos;
-            }
-            else
-            {
-                rightHandPos = 0;
-            }
+            rightHandPos = pos;
         }
     }
 
-    public void isLeftHandDown(bool isDown)
+    public void isLeftHandDown(int isDown)
     {
-        if (isLeftKeyDown != isDown)
+        if(isDown == 0)
         {
-            isLeftKeyDown = isDown;
+            isLeftKeyDown = false;
+        } else
+        {
+            isLeftKeyDown = true;
         }
     }
 
-    public void isRightHandDown(bool isDown)
+    public void isRightHandDown(int isDown)
     {
-        if (isRightKeyDown != isDown)
+        if (isDown == 0)
         {
-            isRightKeyDown = isDown;
+            isRightKeyDown = false;
+        }
+        else
+        {
+            isRightKeyDown = true;
         }
     }
 
     public void OnClickSaveScore()
     {
         int score = int.Parse(GameObject.Find("Score").GetComponent<TextMeshProUGUI>().text);
-        //Debug.Log("OnClickSaveScore > score : " + score);
+        Debug.Log("OnClickSaveScore > score : " + score);
         ResultSave(score);
     }
 }

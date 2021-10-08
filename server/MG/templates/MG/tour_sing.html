@@ -94,12 +94,14 @@
     // 따라서, 내부만 변경하면 됨
     // 클릭도 필요 없음 -> 유니티에서 버튼 있는거니까  
         function ResultSave(score){
+            console.log("ResultSave")
+            console.log(score)
             let text = 'Your Score is ' + score;
             document.getElementById('modal-score').InnerHTML = text
             document.getElementById('hiddenScore').InnerHTML = score
-            jQuery(document).ready(function () {
-                $("#exampleModalCenter").show();
-            });
+            // jQuery(document).ready(function () {
+            //     $("#exampleModalCenter").show();
+            // });
         }
     </script>
 
@@ -151,6 +153,55 @@
 
     <!-- 모션게임 스크립트 -->
     <script type="module">
+        // hand controller 선언
+        const handController = (function(){
+            const self = {
+                leftHandPos: 0,
+                rightHandPos: 0,
+                isLeftHandKeyDown: 0,
+                isRightHandKeyDown: 0,
+                SendUpdateLeftHandPos: null,
+                SendUpdateRightHandPos: null,
+                SendisLeftHandDown: null,
+                SendisRightHandDown: null,
+                updateHandpos: (leftHandPos, rightHandPos) => {
+                    console.log(`leftHandPos: ${leftHandPos}, rightHandPos: ${rightHandPos}`)
+                    if(self.leftHandPos != leftHandPos && self.SendUpdateLeftHandPos){
+                        self.SendUpdateLeftHandPos(leftHandPos)
+                        self.leftHandPos = leftHandPos
+                        console.log("left pos update")
+                    }
+                    if(self.rightHandPos != rightHandPos && self.SendUpdateRightHandPos){
+                        self.SendUpdateRightHandPos(rightHandPos)
+                        self.rightHandPos = rightHandPos
+                        console.log("right pos update")
+                    }
+                },
+                updateHandState: (isLeftHandKeyDown, isRightHandKeyDown) => {
+                    if(self.isLeftHandKeyDown != isLeftHandKeyDown && self.SendisLeftHandDown){
+                        self.SendisLeftHandDown(isLeftHandKeyDown)
+                        self.isLeftHandKeyDown = isLeftHandKeyDown
+                    }
+                    if(self.isRightHandKeyDown != isRightHandKeyDown && self.SendisRightHandDown){
+                        self.SendisRightHandDown(isRightHandKeyDown)
+                        self.isRightHandKeyDown = isRightHandKeyDown
+                    }
+                }
+            }
+
+            return self
+        })();
+
+        {% comment %} setInterval(function() {
+            var l = Math.floor(Math.random() * 4) + 1;
+            var r = Math.floor(Math.random() * 4) + 1;
+            var ld = Math.floor(Math.random() * 2);
+            var rd = Math.floor(Math.random() * 2);
+
+            handController.updateHandpos(l, r)
+            handController.updateHandState(ld, rd)
+        }, 3000); {% endcomment %}
+
         // 모션인식 실행 스크립트
         const videoElement = document.getElementsByClassName('input_video')[0];
         const canvasElement = document.getElementsByClassName('output_canvas')[0];
@@ -172,6 +223,41 @@
                 }
             }
             canvasCtx.restore();
+
+            if (frame_count % 3 == 0 && results.multiHandedness) {
+                // 왼손 & 오른손 각 1회
+                let index = 0
+                let leftPos = 0, rightPos = 0
+                for (const handedness of results.multiHandedness) {
+                    const landmarks = results.multiHandLandmarks[index++]
+
+                    let x = 0, y = 0, pos = 0;
+                    for(const landmark of landmarks){
+                        x += landmark.x;
+                    }
+                    x /= landmarks.length;
+
+                    // 반전
+                    x = 1 - x
+                    if(0 <= x && x <= 0.25){
+                        pos = 1
+                    }else if(x <= 0.5){
+                        pos = 2
+                    }else if(x <= 0.75){
+                        pos = 3
+                    }else if(x <= 1){
+                        pos = 4
+                    }
+
+                    const isLeft = handedness.label === "Left"
+                    if(isLeft) leftPos = pos
+                    else rightPos = pos
+                }
+
+                handController.updateHandpos(leftPos, rightPos)
+            }
+
+            frame_count++
         }
 
         const hands = new Hands({locateFile: (file) => {
@@ -179,8 +265,8 @@
         }});
         hands.setOptions({
             maxNumHands: 2,
-            minDetectionConfidence: 0.5,
-            minTrackingConfidence: 0.5
+            minDetectionConfidence: 0.7,
+            minTrackingConfidence: 0.7
         });
         hands.onResults(onResults);
 
@@ -197,9 +283,9 @@
         var buildUrl = "{% static 'MG/Build' %}";
         var loaderUrl = buildUrl + "/MG.loader.js";
         var config = {
-            dataUrl: buildUrl + "/MG.data.gz",
-            frameworkUrl: buildUrl + "/MG.framework.js.gz",
-            codeUrl: buildUrl + "/MG.wasm.gz",
+            dataUrl: buildUrl + "/MG.data",
+            frameworkUrl: buildUrl + "/MG.framework.js",
+            codeUrl: buildUrl + "/MG.wasm",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "DefaultCompany",
             productName: "New Unity Project",
@@ -212,7 +298,6 @@
         var progressBarFull = document.querySelector("#unity-progress-bar-full");
         var fullscreenButton = document.querySelector("#unity-fullscreen-button");
         var mobileWarning = document.querySelector("#unity-mobile-warning");
-        var instance;
 
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             container.className = "unity-mobile";
@@ -233,11 +318,14 @@
             createUnityInstance(canvas, config, (progress) => {
                 progressBarFull.style.width = 100 * progress + "%";
             }).then((unityInstance) => {
-                instance = unityInstance
                 loadingBar.style.display = "none";
                 fullscreenButton.onclick = () => {
                     unityInstance.SetFullscreen(1);
                 };
+                handController.SendUpdateLeftHandPos = pos => unityInstance.SendMessage("RhythmCore4Tracks", "UpdateLeftHandPos", pos)
+                handController.SendUpdateRightHandPos = pos => unityInstance.SendMessage("RhythmCore4Tracks", "UpdateRightHandPos", pos)
+                handController.SendisLeftHandDown = isDown => unityInstance.SendMessage("RhythmCore4Tracks", "isLeftHandDown", isDown)
+                handController.SendisRightHandDown = isDown => unityInstance.SendMessage("RhythmCore4Tracks", "isRightHandDown", isDown)
             }).catch((message) => {
                 alert(message);
             });
