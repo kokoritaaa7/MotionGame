@@ -7,6 +7,8 @@ import json
 from .models import RankingBoard
 from .redis_client import RedisRanker
 from .ML import sendResult,test
+import smtplib
+from email.mime.text import MIMEText
 
 # Create your views here.
 def index(request):
@@ -23,7 +25,27 @@ def checkout(request):
     return render(request, 'MG/check-out.html')
 
 def contact(request):
-    return render(request, 'MG/contact.html')
+    if request.method == 'GET':
+        return render(request, 'MG/contact.html')
+    else: # POST
+        ADMIN_MAIL = 'kokoritaaa7@gmail.com'
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        print(email, message)
+        # 발신자주소, 수신자주소, 메시지
+        send_mail(ADMIN_MAIL, email, message)
+        return JsonResponse({'result':True})
+
+### 메일 보내기
+def send_mail(ADMIN, to_email, msg):
+    APP_PW = 'hcxrlccpcltibqep'
+    smtp = smtplib.SMTP_SSL('smtp.gmail.com', 465) # SMTP 설정
+    smtp.login(ADMIN, APP_PW) # 인증정보 설정
+    msg = MIMEText(msg)
+    msg['Subject'] = '[문의사항]    ' + to_email # 제목
+    msg['To'] = ADMIN # 수신 이메일
+    smtp.sendmail(ADMIN, ADMIN, msg.as_string())
+    smtp.quit()
 
 def error(request):
     return render(request, 'MG/error.html')
@@ -55,6 +77,8 @@ def tour(request):
 def tour_sing(request):
     return render(request, 'MG/tour_sing.html')
 
+def tutorial(request):
+    return render(request, 'MG/tutorial.html')
 
 def ranking_board(request):
     '''ranking board 출력 화면 기능'''
