@@ -28,7 +28,6 @@
                             <div class="breadcrumb-area">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb d-flex justify-content-center">
-                                        <a href="랭킹">랭킹 보러가기</a></li>
                                         <li class="breadcrumb-item"><a href="/MG/ranking_board/">랭킹 보러가기</a></li>
                                     </ol>
                                 </nav>
@@ -86,112 +85,8 @@
         </div>
     </div>
 
-
-    <!-- unity 게임 화면 (절대좌표)-->
-    <div id="unity-container" class="unity-desktop">
-        <canvas id="unity-canvas" width=960 height=600 style="margin-left: 10%;"></canvas>
-        <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-            <div id="unity-progress-bar-full"></div>
-        </div>
-        </div>
-        <div id="unity-mobile-warning">
-        WebGL builds are not supported on mobile devices.
-        </div>
-        <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">New Unity Project</div>
-        <div id="unity-command" name='None' style="display: none;"></div>
-        </div>
-    </div>
-
-
-    <!-- Testimonials Content Start -->
-    {% comment %} <section id="tournaments-content"> {% endcomment %}
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="overview" role="tabpanel"
-                aria-labelledby="overview-tab">
-                <div class="container pb-120">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            {% comment %} <h4 class="head-area">Motion Game</h4>
-                            <div class="row wrapper">
-
-                            </div>
-                            <div class="info-area">
-                                <h4>Information</h4>
-                                <div class="single-info">
-                                    <h5>Format</h5>
-                                    <ul>
-                                        <li>Map pool: Selected Aim Maps</li>
-                                        <li>All kind of cheating will result in a permanent suspension from Begam.</li>
-                                        <li>Playing with a cheater will result in a 3 month suspension from Begam.</li>
-                                        <li>Toxic behaviour will cause warnings and in severe cases both disqualifications and
-                                            suspensions.</li>
-                                    </ul>
-                                </div>
-                                <div class="single-info">
-                                    <h5>Prize Claim</h5>
-                                    <p>Prize claims must be completed within 24 hours of the end of the tournament
-                                        otherwise risk penalty of the prize. Claims can take up to 72 hours to be processed.</p>
-                                </div>
-                                <div class="single-info">
-                                    <h5>Rules</h5>
-                                    <ul>
-                                        <li>Please be respectful to your host and other participants. If any malicious behavior
-                                            is reported, you will be removed from the tournament.</li>
-                                        <li>Please be on time for your registration and for the actual tournament. You
-                                            (and your team) will be disqualified on no-show.</li>
-                                        <li>You and all of your teammates must be registered to qualify for the event.</li>
-                                        <li>You can play in this tournament only if your registered and in-game names match,
-                                            otherwise you will be disqualified.</li>
-                                    </ul>
-                                </div>
-                            </div> {% endcomment %}
-                            {% comment %} <div class="magnific-area">
-                                <img src="{% static 'MG/images/magnific-bg.png' %}" alt="image">
-                                <a href="https://www.youtube.com/watch?v=MJ0zpsWQ_XM" class="mfp-iframe popupvideo">
-                                    <img src="{% static 'MG/images/play-icon-2.png' %}" alt="image">
-                                </a>
-                            </div> {% endcomment %}
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="sidebar">
-                                <div class="single-side">
-                                    <button class="cmn-btn" type="submit">Webcame</button>
-                                        <!-- 카메라 화면 -->
-                                        <div class="container1">    
-                                            <video class="input_video" style="display: None;"></video>
-                                            <canvas class="output_canvas" width="1280px" height="720px"></canvas>
-                                        </div>
-
-                                        <canvas class="output_canvas"></canvas>
-                                        <div class = "frame"></div>
-                                </div>
-                                
-                                
-                            </div>
-
-                    <div class="col-lg-4">
-                        <div class="right-sidebar"> 
-                            <div class="top-area">
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    {% comment %} </section> {% endcomment %}
-    <!-- Testimonials Content End -->
-
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-    Launch demo modal
+    <button type="button" id="modalBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" style='display:none'>
     </button>
 
     <!-- Modal -->
@@ -217,21 +112,14 @@
     </div>
 
     <script>
-    // 성준님 코드 ==> unity에서 ResultSave 함수 호출하도록 만들어놔서 이 이름으로 만들어야되고
-    // 따라서, 내부만 변경하면 됨
-    // 클릭도 필요 없음 -> 유니티에서 버튼 있는거니까
+    // 성준님 코드 ==> unity에서 ResultSave 함수 호출하도록 함
       function ResultSave(score){
+
+        document.getElementById('modalBtn').click() //모달 나오게 
+
           let text = 'Your Score is ' + score;
           document.getElementById('modal-score').InnerHTML = text
           document.getElementById('hiddenScore').InnerHTML = score
-        //   const default_name = "이름을 입력해주세요."
-
-        //   const name = window.prompt("Score : " + score, default_name)
-        //   if(name === default_name || name === null){
-        //     alert("취소했습니다.")
-        //   }else{
-        //     alert(name + " 님 점수 : " + score)
-        //   }
       }
 
       function onDisplay(){
@@ -266,6 +154,7 @@
                 }
             });
         }
+    </script>
 
     <script src="{% static 'MG/js/jquery-3.5.1.min.js' %}"></script>
     <script src="{% static 'MG/js/bootstrap.min.js' %}"></script>
@@ -286,12 +175,6 @@
     <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
 
     <script type="module">
-
-
-
-
-
-
 
     const videoElement = document.getElementsByClassName('input_video')[0];
     const canvasElement = document.getElementsByClassName('output_canvas')[0];
@@ -375,9 +258,7 @@
     });
     camera.start();
 
-    
-
-    </script>
+    </script> 
 
 
 
