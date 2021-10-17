@@ -64,9 +64,9 @@
     </div>
 
     <!-- Button trigger modal -->
-    {% comment %} <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+    <button id="showmodal" type="button" style="display:none;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
         Launch demo modal
-    </button> {% endcomment %}
+    </button>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -76,8 +76,9 @@
                     <h5 class="modal-title" id="exampleModalLongTitle">Save your score at Ranking Board🏆</h5>
                 </div>
                 <div class="modal-body">
-                    <h6>Your Score is XXXX</h6>
+                    <h6 id="modal-score">Your Score is XXXX</h6>
                     <h6>Ranking Board에 저장할 이름을 입력해주세요</h6><br>
+                    <div id="hiddenScore" style="display:none;"></div>
                     <input type="text" placeholder="Enter Your NickName" id="nickname">
                 </div>
                 <div class="modal-footer">
@@ -90,20 +91,11 @@
     </div>
 
     <script>
-    // 성준님 코드 ==> unity에서 ResultSave 함수 호출하도록 만들어놔서 이 이름으로 만들어야되고
-    // 따라서, 내부만 변경하면 됨
-    // 클릭도 필요 없음 -> 유니티에서 버튼 있는거니까  
         function ResultSave(score){
-            let text = 'Your Score is ' + score;
-            document.getElementById('modal-score').InnerHTML = text
-            document.getElementById('hiddenScore').InnerHTML = score
-            jQuery(document).ready(function () {
-                $("#exampleModalCenter").show();
-            });
+            document.getElementById('modal-score').innerText = 'Your Score is ' + score
+            document.getElementById('hiddenScore').innerText = score
+            document.getElementById('showmodal').click()
         }
-    </script>
-
-    <script>
         function sendScore() {
             let nickname = document.getElementById('nickname')
             let score = document.getElementById('hiddenScore')
