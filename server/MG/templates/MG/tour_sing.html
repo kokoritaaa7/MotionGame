@@ -151,6 +151,44 @@
 
     <!-- 모션게임 스크립트 -->
     <script type="module">
+        // hand controller 선언
+        const handController = (function(){
+            const self = {
+                leftHandPos: 0,
+                rightHandPos: 0,
+                isLeftHandKeyDown: 0,
+                isRightHandKeyDown: 0,
+                SendUpdateLeftHandPos: null,
+                SendUpdateRightHandPos: null,
+                SendisLeftHandDown: null,
+                SendisRightHandDown: null,
+                updateHandpos: (leftHandPos, rightHandPos) => {
+                    if(self.leftHandPos != leftHandPos && self.SendUpdateLeftHandPos){
+                        self.SendUpdateLeftHandPos(leftHandPos)
+                        self.leftHandPos = leftHandPos
+                        console.log("left pos update " + leftHandPos)
+                    }
+                    if(self.rightHandPos != rightHandPos && self.SendUpdateRightHandPos){
+                        self.SendUpdateRightHandPos(rightHandPos)
+                        self.rightHandPos = rightHandPos
+                        console.log("right pos update " + rightHandPos)
+                    }
+                },
+                updateHandState: (isLeftHandKeyDown, isRightHandKeyDown) => {
+                    //if(self.isLeftHandKeyDown != isLeftHandKeyDown && self.SendisLeftHandDown){
+                        self.SendisLeftHandDown(isLeftHandKeyDown)
+                    //    self.isLeftHandKeyDown = isLeftHandKeyDown
+                    //}
+                    //if(self.isRightHandKeyDown != isRightHandKeyDown && self.SendisRightHandDown){
+                        self.SendisRightHandDown(isRightHandKeyDown)
+                    //    self.isRightHandKeyDown = isRightHandKeyDown
+                    //}
+                }
+            }
+
+            return self
+        })();
+
         // 모션인식 실행 스크립트
         const videoElement = document.getElementsByClassName('input_video')[0];
         const canvasElement = document.getElementsByClassName('output_canvas')[0];
@@ -172,6 +210,41 @@
                 }
             }
             canvasCtx.restore();
+
+            if (frame_count % 2 == 0 && results.multiHandedness) {
+                // 왼손 & 오른손 각 1회
+                let index = 0
+                let leftPos = 0, rightPos = 0
+                for (const handedness of results.multiHandedness) {
+                    const landmarks = results.multiHandLandmarks[index++]
+
+                    let x = 0, y = 0, pos = 0;
+                    for(const landmark of landmarks){
+                        x += landmark.x;
+                    }
+                    x /= landmarks.length;
+
+                    // 반전
+                    x = 1 - x
+                    if(0 <= x && x <= 0.25){
+                        pos = 1
+                    }else if(x <= 0.5){
+                        pos = 2
+                    }else if(x <= 0.75){
+                        pos = 3
+                    }else if(x <= 1){
+                        pos = 4
+                    }
+
+                    const isLeft = handedness.label === "Left"
+                    if(isLeft) leftPos = pos
+                    else rightPos = pos
+                }
+                handController.updateHandpos(leftPos, rightPos)
+                handController.updateHandState(0, 1)
+            }
+
+            frame_count++
         }
 
         const hands = new Hands({locateFile: (file) => {
@@ -233,11 +306,14 @@
             createUnityInstance(canvas, config, (progress) => {
                 progressBarFull.style.width = 100 * progress + "%";
             }).then((unityInstance) => {
-                instance = unityInstance
                 loadingBar.style.display = "none";
                 fullscreenButton.onclick = () => {
                     unityInstance.SetFullscreen(1);
                 };
+                handController.SendUpdateLeftHandPos = pos => unityInstance.SendMessage("RhythmCore4Tracks", "UpdateLeftHandPos", pos)
+                handController.SendUpdateRightHandPos = pos => unityInstance.SendMessage("RhythmCore4Tracks", "UpdateRightHandPos", pos)
+                handController.SendisLeftHandDown = isDown => unityInstance.SendMessage("RhythmCore4Tracks", "isLeftHandDown", isDown)
+                handController.SendisRightHandDown = isDown => unityInstance.SendMessage("RhythmCore4Tracks", "isRightHandDown", isDown)
             }).catch((message) => {
                 alert(message);
             });
