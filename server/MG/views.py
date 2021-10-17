@@ -13,7 +13,7 @@ from email.mime.text import MIMEText
 # Create your views here.
 def index(request):
     '''처음 메인 화면'''
-    return render(request, 'MG/index.html ')
+    return render(request, 'MG/index.html')
 
 def us(request):
     return render(request, 'MG/about-us.html')

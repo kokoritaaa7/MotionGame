@@ -1,15 +1,13 @@
 {% extends './base.html' %}   
 {% load static %} 
 {% block content %}
-{% include "./motiongesture.html" %}
 
-
-<style>
-    .modal-body h6, 
-    .modal-header h5 {
-        color:black;
-    }
-</style>
+    <style>
+        .modal-body h6, 
+        .modal-header h5 {
+            color:black;
+        }
+    </style>
 
 
     <!-- banner-section start -->
@@ -37,56 +35,36 @@
                 </div>
             </div>
         </div>
-
     </section>
     <!-- banner-section end -->
 
+    <div class="container">
+        <video class="input_video" style="display:none;"></video>
+        <canvas class="output_canvas" style="display:none;"></canvas>
+    </div>
 
     <!-- unity 게임 화면 (절대좌표)-->
     <div id="unity-container" class="unity-desktop">
-        <div class="overlay">
-
-                <div class="row">
-                    <div class="col-lg-8">
-                        <canvas id="unity-canvas" style="margin-left: 10%; margin-top: 10%;"></canvas>
-                    </div>
-                    <div class="col-lg-4">
-                        <button class="cmn-btn" type="submit" onclick="onDisplay()" style="margin-left: 30%; margin-top: 10%; position: relative;">Webcam</button>
-                        <div id="webcam"  style="margin-left: 13%;">
-                        <!-- 카메라 화면 -->
-                            <div class="container1">
-                                <video class="input_video" style="display:none;" ></video>
-                            </div>
-
-                            <canvas class="output_canvas"></canvas>
-                            <div class = "frame"></div>
-                        </div>
-                    </div>
-                    <div id="unity-loading-bar">
-                    <div id="unity-progress-bar-empty">
-                        <div id="unity-progress-bar-full"></div>
-                    </div>
-                    </div>
-                </div>
-
-        </div>
+        <canvas id="unity-canvas" width=960 height=600></canvas>
         <div id="unity-loading-bar">
             <div id="unity-logo"></div>
-            <div id="unity-progress-bar-empty"></div>
-            <div id="unity-progress-bar-full"></div>
+            <div id="unity-progress-bar-empty">
+                <div id="unity-progress-bar-full"></div>
+            </div>
         </div>
         <div id="unity-mobile-warning">
+            WebGL builds are not supported on mobile devices.
         </div>
         <div id="unity-footer">
             <div id="unity-webgl-logo"></div>
             <div id="unity-fullscreen-button"></div>
-            <div id="unity-build-title"></div>
-            <div id="unity-command" name='None' style="display: none;"></div>
+            <div id="unity-build-title">New Unity Project</div>
         </div>
     </div>
 
     <!-- Button trigger modal -->
-    <button type="button" id="modalBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" style='display:none'>
+    <button id="showmodal" type="button" style="display:none;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Launch demo modal
     </button>
 
     <!-- Modal -->
@@ -97,8 +75,9 @@
                     <h5 class="modal-title" id="exampleModalLongTitle">Save your score at Ranking Board🏆</h5>
                 </div>
                 <div class="modal-body">
-                    <h6 id="modal-score" name="modal-score"></h6>
+                    <h6 id="modal-score">Your Score is XXXX</h6>
                     <h6>Ranking Board에 저장할 이름을 입력해주세요</h6><br>
+                    <div id="hiddenScore" style="display:none;"></div>
                     <input type="text" placeholder="Enter Your NickName" id="nickname">
                 </div>
                 <div class="modal-footer">
@@ -112,26 +91,11 @@
     </div>
 
     <script>
-    // 성준님 코드 ==> unity에서 ResultSave 함수 호출하도록 함
-      function ResultSave(score){
-
-        document.getElementById('modalBtn').click() //모달 나오게 
-
-          let text = 'Your Score is ' + score;
-          document.getElementById('modal-score').InnerHTML = text
-          document.getElementById('hiddenScore').InnerHTML = score
-      }
-
-      function onDisplay(){
-            if($('#webcam').css('display')== 'none'){
-                $('#webcam').show();
-            } else{
-                $('#webcam').hide();
-            }
+        function ResultSave(score){
+            document.getElementById('modal-score').innerText = 'Your Score is ' + score
+            document.getElementById('hiddenScore').innerText = score
+            document.getElementById('showmodal').click()
         }
-    </script>
-
-    <script>
         function sendScore() {
             let nickname = document.getElementById('nickname')
             let score = document.getElementById('hiddenScore')
@@ -144,9 +108,9 @@
                     'score': score
                 },
                 success: function(res){
-                    if res.flag == 0:
+                    if(res.flag === 0)
                         alert(nickname + '중복')
-                    location.href="/MG/ranking_board"
+                    location.href = "/MG/ranking_board"
                     // modal 끄고 Ranking Board로 이동
                 },
                 error: function(err){
@@ -167,99 +131,175 @@
     <script src="{% static 'MG/js/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'MG/js/wow.js' %}"></script>
     <script src="{% static 'MG/js/main.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
 
+    <!-- 모션게임 스크립트 -->
     <script type="module">
+        // hand controller 선언
+        const handController = (function(){
+            const self = {
+                leftHandPos: 0,
+                rightHandPos: 0,
+                isLeftHandKeyDown: 0,
+                isRightHandKeyDown: 0,
+                SendUpdateLeftHandPos: null,
+                SendUpdateRightHandPos: null,
+                SendisLeftHandDown: null,
+                SendisRightHandDown: null,
+                updateHandpos: (leftHandPos, rightHandPos) => {
+                    if(self.leftHandPos != leftHandPos && self.SendUpdateLeftHandPos){
+                        self.SendUpdateLeftHandPos(leftHandPos)
+                        self.leftHandPos = leftHandPos
+                        console.log("left pos update " + leftHandPos)
+                    }
+                    if(self.rightHandPos != rightHandPos && self.SendUpdateRightHandPos){
+                        self.SendUpdateRightHandPos(rightHandPos)
+                        self.rightHandPos = rightHandPos
+                        console.log("right pos update " + rightHandPos)
+                    }
+                },
+                updateHandState: (isLeftHandKeyDown, isRightHandKeyDown) => {
+                    //if(self.isLeftHandKeyDown != isLeftHandKeyDown && self.SendisLeftHandDown){
+                        self.SendisLeftHandDown(isLeftHandKeyDown)
+                    //    self.isLeftHandKeyDown = isLeftHandKeyDown
+                    //}
+                    //if(self.isRightHandKeyDown != isRightHandKeyDown && self.SendisRightHandDown){
+                        self.SendisRightHandDown(isRightHandKeyDown)
+                    //    self.isRightHandKeyDown = isRightHandKeyDown
+                    //}
+                }
+            }
 
-    const videoElement = document.getElementsByClassName('input_video')[0];
-    const canvasElement = document.getElementsByClassName('output_canvas')[0];
-    const canvasCtx = canvasElement.getContext('2d');
+            return self
+        })();
 
-    var csrf_token = '{{ csrf_token }}';
-    var xhr = new XMLHttpRequest();
-    
-    let x;
-    
-    function onResults(results) {
-      canvasCtx.save();
-      canvasCtx.translate(canvasElement.width, 0);
-      canvasCtx.scale(-1,1);
-      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-      canvasCtx.drawImage(
-          results.image, 0, 0, canvasElement.width, canvasElement.height);
-      if (results.multiHandLandmarks) {
-        for (const landmarks of results.multiHandLandmarks) {
-        
+        // 모션인식 실행 스크립트
+        const videoElement = document.getElementsByClassName('input_video')[0];
+        const canvasElement = document.getElementsByClassName('output_canvas')[0];
+        const canvasCtx = canvasElement.getContext('2d');
 
-          x = JSON.stringify({landmarks})
-          
+        var frame_count = 0;
+        var csrf_token = '{{ csrf_token }}';
+        var xhr = new XMLHttpRequest();
+        let x=[];
 
-          drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
-                         {color: '#00FF00', lineWidth: 5});
-          drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
+        function onResults(results) {
+            canvasCtx.save();
+            canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+            canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+            if (results.multiHandLandmarks) {
+                for (const landmarks of results.multiHandLandmarks) {
+                    drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: '#00FF00', lineWidth: 5});
+                    drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
+                }
+            }
+            canvasCtx.restore();
+
+            if (frame_count % 2 == 0 && results.multiHandedness) {
+                // 왼손 & 오른손 각 1회
+                let index = 0
+                let leftPos = 0, rightPos = 0
+                for (const handedness of results.multiHandedness) {
+                    const landmarks = results.multiHandLandmarks[index++]
+
+                    let x = 0, y = 0, pos = 0;
+                    for(const landmark of landmarks){
+                        x += landmark.x;
+                    }
+                    x /= landmarks.length;
+
+                    // 반전
+                    x = 1 - x
+                    if(0 <= x && x <= 0.25){
+                        pos = 1
+                    }else if(x <= 0.5){
+                        pos = 2
+                    }else if(x <= 0.75){
+                        pos = 3
+                    }else if(x <= 1){
+                        pos = 4
+                    }
+
+                    const isLeft = handedness.label === "Left"
+                    if(isLeft) leftPos = pos
+                    else rightPos = pos
+                }
+                handController.updateHandpos(leftPos, rightPos)
+                handController.updateHandState(0, 1)
+            }
+
+            frame_count++
         }
-      }
-      canvasCtx.restore();
-    }
-    let s=0;
-    let t
-    setInterval(function(){
-      $.ajax({
-            url: '../landmark_data/',
-            type: 'POST',
-            data: {'landmarks' : x },
-            dataType : 'json',
-            beforeSend: function(xhr) {
-              xhr.setRequestHeader('X-CSRFToken', csrf_token);
+
+        const hands = new Hands({locateFile: (file) => {
+            return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+        }});
+        hands.setOptions({
+            maxNumHands: 2,
+            minDetectionConfidence: 0.5,
+            minTrackingConfidence: 0.5
+        });
+        hands.onResults(onResults);
+
+        const camera = new Camera(videoElement, {
+            onFrame: async () => {
+                await hands.send({image: videoElement});
             },
-          success:function(res){
-              console.log(res)
-            if (res['location']=='None'){
-              console.log('there is no landmarks');
-              t=document.getElementById('unity-command').className=res['locaiton']
-            }
-            else {
-              x=NaN;
-              console.log(res['location']);
-              t=document.getElementById('unity-command').className=res['locaiton']
+            width: 1280,
+            height: 720
+        });
+        camera.start();
 
-            }
-          },
-          error:function(){
-            x=NaN
-            t=document.getElementById('unity-command').className=res['None']
-            console.log('error')
-            //데이터를 클라이언트로 보내서 해결
-          }
-      })
-    }, 1000) // n밀리초에 한 번씩 전송 // 해당 페이지가 아니더라도 0.1초에 한번씩 데이터 전송하는 것 같음 (Console에 자꾸 에러 찍힘)
-    
-    const hands = new Hands({locateFile: (file) => {
-      return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-    }});
-    hands.setOptions({
-      maxNumHands: 2,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5
-    });
-    hands.onResults(onResults);
-    
-    const camera = new Camera(videoElement, {
-      onFrame: async () => {
-        await hands.send({image: videoElement});
-      },
-      width: 1280,
-      height: 720
-    });
-    camera.start();
+        // Unity 게임실행 스크립트
+        var buildUrl = "{% static 'MG/Build' %}";
+        var loaderUrl = buildUrl + "/MG.loader.js";
+        var config = {
+            dataUrl: buildUrl + "/MG.data",
+            frameworkUrl: buildUrl + "/MG.framework.js",
+            codeUrl: buildUrl + "/MG.wasm",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "DefaultCompany",
+            productName: "New Unity Project",
+            productVersion: "0.10.0",
+        };
 
-    </script> 
+        var container = document.querySelector("#unity-container");
+        var canvas = document.querySelector("#unity-canvas");
+        var loadingBar = document.querySelector("#unity-loading-bar");
+        var progressBarFull = document.querySelector("#unity-progress-bar-full");
+        var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+        var mobileWarning = document.querySelector("#unity-mobile-warning");
 
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            container.className = "unity-mobile";
+            config.devicePixelRatio = 1;
+            mobileWarning.style.display = "block";
+            setTimeout(() => {
+                mobileWarning.style.display = "none";
+            }, 5000);
+        } else {
+            canvas.style.width = "960px";
+            canvas.style.height = "600px";
+        }
+        loadingBar.style.display = "block";
 
-
+        var script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+            createUnityInstance(canvas, config, (progress) => {
+                progressBarFull.style.width = 100 * progress + "%";
+            }).then((unityInstance) => {
+                loadingBar.style.display = "none";
+                fullscreenButton.onclick = () => {
+                    unityInstance.SetFullscreen(1);
+                };
+                handController.SendUpdateLeftHandPos = pos => unityInstance.SendMessage("RhythmCore4Tracks", "UpdateLeftHandPos", pos)
+                handController.SendUpdateRightHandPos = pos => unityInstance.SendMessage("RhythmCore4Tracks", "UpdateRightHandPos", pos)
+                handController.SendisLeftHandDown = isDown => unityInstance.SendMessage("RhythmCore4Tracks", "isLeftHandDown", isDown)
+                handController.SendisRightHandDown = isDown => unityInstance.SendMessage("RhythmCore4Tracks", "isRightHandDown", isDown)
+            }).catch((message) => {
+                alert(message);
+            });
+        };
+        document.body.appendChild(script);
+    </script>
 {% endblock  %}
