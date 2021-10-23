@@ -9,6 +9,7 @@ from .redis_client import RedisRanker
 from .ML import sendResult,test
 import smtplib
 from email.mime.text import MIMEText
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def index(request):
@@ -149,6 +150,7 @@ def ranking_board(request):
 ### [문제2] testMediaPipeHand 이동하면 JS Console에 에러가 찍히는 문제 -> 
 ### [문제3] 카메라에 손을 내리면 마지막에 저장된 location을 계속 출력하는 문제  -> ajax 통신후 좌표값을 전달하면 랜드마크를 저장하는 X를 NaN으로 초기화
 ### -> 전달된 landmark가 없으니까 마지막으로 저장된 location값을 찍는 것 같음 (추측)
+@csrf_exempt
 def landmark_data(request):
     knn = test() # 일단 Model 저장하는 부분 안되는 것 같아서 test 함수로 진행
     try :

@@ -259,8 +259,8 @@
                     // 손모양  검출
                     if (frame_count % 4 == 0){
                         $.ajax({
-                            url:'/MG/landmark_data',
-                            type:'GET',
+                            url:'/MG/landmark_data/',
+                            type:'POST',
                             data:{
                                 'landmarks': landmarks,
                             },
