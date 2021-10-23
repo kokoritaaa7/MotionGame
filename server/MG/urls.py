@@ -9,6 +9,7 @@ urlpatterns = [
     path('landmark_data/', views.landmark_data, name='landmark'),
     path('ranking_board/', views.ranking_board, name='ranking'),
     path('tutorial/', views.tutorial, name='tutorial'),
+    path('sendScore/', views.sendScore),
     path('us/', views.us),
     path('cart/', views.cart),
     path('checkout/', views.checkout),

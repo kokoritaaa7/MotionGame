@@ -40,7 +40,7 @@
 
     <div class="container">
         <video class="input_video" style="display:none;"></video>
-        <canvas class="output_canvas" style="display:none;"></canvas>
+        <canvas class="output_canvas" ></canvas>
     </div>
 
     <!-- unity 게임 화면 (절대좌표)-->
@@ -93,12 +93,17 @@
     <script>
         function ResultSave(score){
             document.getElementById('modal-score').innerText = 'Your Score is ' + score
-            document.getElementById('hiddenScore').innerText = score
+            document.getElementById('hiddenScore').setAttribute("data-value", score)
             document.getElementById('showmodal').click()
         }
+
         function sendScore() {
-            let nickname = document.getElementById('nickname')
-            let score = document.getElementById('hiddenScore')
+
+            var nickname = $('#nickname').val().trim()
+            var score = document.getElementById('hiddenScore').getAttribute('data-value')
+
+            console.log(nickname)
+            console.log(score)
 
             $.ajax({
                 url:'/MG/sendScore',

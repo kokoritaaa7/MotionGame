@@ -80,13 +80,26 @@ def tour_sing(request):
 def tutorial(request):
     return render(request, 'MG/tutorial.html')
 
+def sendScore(request):
+
+    import redis
+
+    conn_redis = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
+    gameRanker = RedisRanker(conn_redis, "game", False)
+
+    id = request.GET.get('id')
+    score = request.GET.get('score')
+    gameRanker.setScore(id, score)
+
+    return JsonResponse({'result':True})
+
 def ranking_board(request):
     '''ranking board 출력 화면 기능'''
 
     import redis
 
     conn_redis = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
-    gameRanker = RedisRanker(conn_redis, "game", False)
+    gameRanker = RedisRanker(conn_redis, "game", False)    
     
 
     if request.method == 'GET':
