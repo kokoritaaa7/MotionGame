@@ -44,7 +44,7 @@ public class JSController : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && USE_AUTOPLAY
         testNum++;
 
         if (testNum % 123 == 0)
