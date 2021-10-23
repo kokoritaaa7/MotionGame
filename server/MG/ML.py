@@ -3,21 +3,27 @@ import numpy as np
 import cv2
 import os
 import sys
-
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import datasets
+import pickle
+import pandas as pd
+from joblib import dump,load
 
 ## MachineLearing 부분 따로 떼어서 코드 작성.
 def test():
     knn=None
-    if os.path.isfile('TEMPLATES/KNNAlgorithm') :
-        knn = cv2.ml_KNearest.load('TEMPLATES/KNNAlgorithm')
+    if os.path.isfile('statoc/KNNModel.joblib') :
+        knn = load('static/KNNModel.joblib')
     else :
-        file = np.genfromtxt('TEMPLATES/gesture_train.csv', delimiter=',')
-        angle = file[:,:-1].astype(np.float32)
-        label = file[:, -1].astype(np.float32)
-        knn = cv2.ml.KNearest_create()
-        knn.train(angle, cv2.ml.ROW_SAMPLE, label)
-        knn.save('TEMPLATES/KNNAlgorithm')
-        
+        DF=pd.read_csv('static/Gesturedata.csv',header=None)
+        X=DF[DF.columns[:15]]
+        Y=DF[DF.columns[-1]]
+        knn = KNeighborsClassifier(n_neighbors=1,metric='minkowski',p=2,weights='distance')
+        knn.fit(X,Y)
+        s=pickle.dumps(knn)
+        dump(knn,'static/KNNModel.joblib')
+
+                
     return knn
 
 def sendResult(landmarks, knn):
@@ -26,7 +32,7 @@ def sendResult(landmarks, knn):
     xloc, yloc  =[], []
     x, y = 0, 0
     location='None'
-        
+
     for j, lm in enumerate(landmarks['landmarks']):
         joint[j] = [lm['x'], lm['y'], lm['z']]
         xloc.append(lm['x'])
@@ -47,13 +53,10 @@ def sendResult(landmarks, knn):
     angle = np.degrees(angle) # Convert radian to degree
     # Inference gesture
     data = np.array([angle], dtype=np.float32)
-    ret, results= knn.predict(data)
-    print(1)
-    idx = int(results[0][0])
+    results= knn.predict(data)
+    idx = int(results)
     x=np.mean(xloc)
     y=np.mean(yloc)
-    print(results[0][0])
-    results=int(results[0][0])
     if results==1 or results==2 :
         if x<0.25 :
             location='r'
