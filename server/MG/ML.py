@@ -8,20 +8,21 @@ from sklearn import datasets
 import pickle
 import pandas as pd
 from joblib import dump,load
+from django.conf import settings
 
 ## MachineLearing 부분 따로 떼어서 코드 작성.
 def test():
     knn=None
-    if os.path.isfile('statoc/KNNModel.joblib') :
-        knn = load('static/KNNModel.joblib')
+    if os.path.isfile(os.path.join(settings.BASE_DIR, 'MG/static/KNNModel.joblib')) :
+        knn = load(os.path.join(settings.BASE_DIR, 'MG/static/KNNModel.joblib'))
     else :
-        DF=pd.read_csv('static/Gesturedata.csv',header=None)
+        DF=pd.read_csv(os.path.join(settings.BASE_DIR, 'MG/static/Gesturedata.csv'), header=None)
         X=DF[DF.columns[:15]]
         Y=DF[DF.columns[-1]]
         knn = KNeighborsClassifier(n_neighbors=1,metric='minkowski',p=2,weights='distance')
         knn.fit(X,Y)
         s=pickle.dumps(knn)
-        dump(knn,'static/KNNModel.joblib')
+        dump(knn, os.path.join(settings.BASE_DIR, 'MG/static/KNNModel.joblib'))
 
                 
     return knn

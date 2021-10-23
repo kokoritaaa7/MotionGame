@@ -183,14 +183,19 @@
                         console.log("right pos update " + rightHandPos)
                     }
                 },
-                updateHandState: (isLeftHandKeyDown, isRightHandKeyDown) => {
-                    if(self.SendisLeftHandDown){
-                        self.SendisLeftHandDown(isLeftHandKeyDown)
-                    //    self.isLeftHandKeyDown = isLeftHandKeyDown
-                    }
-                    if(self.SendisRightHandDown){
-                        self.SendisRightHandDown(isRightHandKeyDown)
-                    //    self.isRightHandKeyDown = isRightHandKeyDown
+                updateHandState: (isLeft, state) => {
+                    if(self.SendisLeftHandDown && self.SendisRightHandDown){
+                        if (isLeft){
+                            if (self.isLeftHandKeyDown != state){
+                                self.SendisLeftHandDown(state)
+                                self.isLeftHandKeyDown = state
+                            }
+                        } else {
+                            if (self.isRightHandKeyDown != state){
+                                self.SendisRightHandDown(state)
+                                self.isRightHandKeyDown = state
+                            }
+                        }
                     }
                 }
             }
@@ -250,6 +255,30 @@
                     const isLeft = handedness.label === "Left"
                     if(isLeft) leftPos = pos
                     else rightPos = pos
+
+                    // 손모양  검출
+                    if (frame_count % 4 == 0){
+                        $.ajax({
+                            url:'/MG/landmark_data',
+                            type:'GET',
+                            data:{
+                                'landmarks': landmarks,
+                            },
+                            success: function(res){
+                                console.log("손모양  검출 Success : " + res['location'])
+                                if(res['location']){
+                                    // on
+                                    handController.updateHandState(isLeft, 1);
+                                } else {
+                                    // odd
+                                    handController.updateHandState(isLeft, 0);
+                                }
+                            },
+                            error: function(err){
+                                console.log("손모양  검출 Error : " + err)
+                            }
+                        });
+                    }
                 }
                 handController.updateHandpos(leftPos, rightPos)
                 handController.updateHandState(0, 1)
