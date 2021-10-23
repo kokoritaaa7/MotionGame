@@ -24,17 +24,20 @@ namespace RhythmGameStarter
 
         public override bool GetTrackActionKeyDown(Track track, int index)
         {
-            return isPressed[index];
+            var key = keyMapping[index];
+            return isPressed[index] || Input.GetKeyDown(key);
         }
 
         public override bool GetTrackActionKeyUp(Track track, int index)
         {
-            return !isPressed[index];
+            var key = keyMapping[index];
+            return !isPressed[index] || Input.GetKeyDown(key);
         }
 
         public override bool GetTrackActionKey(Track track, int index)
         {
-            return isPressed[index];
+            var key = keyMapping[index];
+            return isPressed[index] || Input.GetKeyDown(key);
         }
 
         public void KeyDown(int index)
