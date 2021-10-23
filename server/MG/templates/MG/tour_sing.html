@@ -185,14 +185,17 @@
                 },
                 updateHandState: (isLeft, state) => {
                     if(self.SendisLeftHandDown && self.SendisRightHandDown){
+                        console.log("updateHandState " + isLeft + " " + state)
                         if (isLeft){
                             if (self.isLeftHandKeyDown != state){
                                 self.SendisLeftHandDown(state)
+                                console.log("update left  " + state)
                                 self.isLeftHandKeyDown = state
                             }
                         } else {
                             if (self.isRightHandKeyDown != state){
                                 self.SendisRightHandDown(state)
+                                console.log("update right  " + state)
                                 self.isRightHandKeyDown = state
                             }
                         }
@@ -252,21 +255,21 @@
                         pos = 4
                     }
 
-                    const isLeft = handedness.label === "Left"
+                    const isLeft = handedness.label === "Right"
                     if(isLeft) leftPos = pos
                     else rightPos = pos
 
                     // 손모양  검출
-                    if (frame_count % 4 == 0){
+                    if (frame_count % 2 == 0){
                         $.ajax({
                             url:'/MG/landmark_data/',
                             type:'POST',
                             data:{
-                                'landmarks': landmarks,
+                                'landmarks': JSON.stringify({landmarks}),
                             },
                             success: function(res){
                                 console.log("손모양  검출 Success : " + res['location'])
-                                if(res['location']){
+                                if(res['location'] != "None"){
                                     // on
                                     handController.updateHandState(isLeft, 1);
                                 } else {
@@ -281,7 +284,6 @@
                     }
                 }
                 handController.updateHandpos(leftPos, rightPos)
-                handController.updateHandState(0, 1)
             }
 
             frame_count++
