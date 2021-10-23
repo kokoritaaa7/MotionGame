@@ -7,6 +7,9 @@
         .modal-header h5 {
             color:black;
         }
+        #webcamBtn{
+            color:white;
+        }
     </style>
 
 
@@ -38,28 +41,38 @@
     </section>
     <!-- banner-section end -->
 
-    <div class="container">
-        <video class="input_video" style="display:none;"></video>
-        <canvas class="output_canvas" ></canvas>
-    </div>
-
-    <!-- unity 게임 화면 (절대좌표)-->
     <div id="unity-container" class="unity-desktop">
-        <canvas id="unity-canvas" width=960 height=600></canvas>
-        <div id="unity-loading-bar">
-            <div id="unity-logo"></div>
-            <div id="unity-progress-bar-empty">
-                <div id="unity-progress-bar-full"></div>
+        <div class="overlay">
+            <div class="row pb-120">
+                <div class="col-lg-8">
+                    <canvas id="unity-canvas" style="margin-left: 10%; margin-top: 10%;"></canvas>
+                </div>
+                <div class="col-lg-4">
+                    <button id="webcamBtn" class="cmn-btn" type="submit" onclick="onDisplay()" style="margin-left: 30%; margin-top: 20%; position: relative;">Webcam</button>
+                    <div id="webcam" style="margin-left: 13%; margin-top:5%">
+                    <!-- 카메라 화면 -->
+                        <div class="container1">
+                            <video class="input_video" style="display:none;" ></video>
+                        </div>
+                        <canvas class="output_canvas"></canvas>
+                    </div>
+                </div>
+                <div id="unity-loading-bar">
+                    <div id="unity-logo"></div>
+                    <div id="unity-progress-bar-empty"></div>
+                    <div id="unity-progress-bar-full"></div>
+                </div>
+                <div id="unity-mobile-warning">
+                </div>
+                <div id="unity-footer">
+                    <div id="unity-webgl-logo"></div>
+                    <div id="unity-fullscreen-button"></div>
+                    <div id="unity-build-title"></div>
+                    <div id="unity-command" name='None' style="display: none;"></div>
+                </div>
             </div>
         </div>
-        <div id="unity-mobile-warning">
-            WebGL builds are not supported on mobile devices.
-        </div>
-        <div id="unity-footer">
-            <div id="unity-webgl-logo"></div>
-            <div id="unity-fullscreen-button"></div>
-            <div id="unity-build-title">New Unity Project</div>
-        </div>
+        
     </div>
 
     <!-- Button trigger modal -->
@@ -123,6 +136,14 @@
                 }
             });
         }
+
+        function onDisplay(){
+            if($('#webcam').css('display')== 'none'){
+                $('#webcam').show();
+            } else{
+                $('#webcam').hide();
+            }
+        }
     </script>
 
     <script src="{% static 'MG/js/jquery-3.5.1.min.js' %}"></script>
@@ -163,14 +184,14 @@
                     }
                 },
                 updateHandState: (isLeftHandKeyDown, isRightHandKeyDown) => {
-                    //if(self.isLeftHandKeyDown != isLeftHandKeyDown && self.SendisLeftHandDown){
+                    if(self.SendisLeftHandDown){
                         self.SendisLeftHandDown(isLeftHandKeyDown)
                     //    self.isLeftHandKeyDown = isLeftHandKeyDown
-                    //}
-                    //if(self.isRightHandKeyDown != isRightHandKeyDown && self.SendisRightHandDown){
+                    }
+                    if(self.SendisRightHandDown){
                         self.SendisRightHandDown(isRightHandKeyDown)
                     //    self.isRightHandKeyDown = isRightHandKeyDown
-                    //}
+                    }
                 }
             }
 
@@ -189,6 +210,8 @@
 
         function onResults(results) {
             canvasCtx.save();
+            canvasCtx.translate(canvasElement.width, 0);
+            canvasCtx.scale(-1,1);
             canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
             canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
             if (results.multiHandLandmarks) {
