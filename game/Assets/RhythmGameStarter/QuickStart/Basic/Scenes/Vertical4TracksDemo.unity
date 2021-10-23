@@ -412,6 +412,21 @@ PrefabInstance:
       propertyPath: isPressed.Array.data[0]
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 374167794678625589, guid: 8c4ea05311ba67e4a99ffbb1cb5dd565,
+        type: 3}
+      propertyPath: isPressed.Array.data[1]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 374167794678625589, guid: 8c4ea05311ba67e4a99ffbb1cb5dd565,
+        type: 3}
+      propertyPath: isPressed.Array.data[2]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 374167794678625589, guid: 8c4ea05311ba67e4a99ffbb1cb5dd565,
+        type: 3}
+      propertyPath: isPressed.Array.data[3]
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 388084203288500818, guid: 8c4ea05311ba67e4a99ffbb1cb5dd565,
         type: 3}
       propertyPath: m_IsActive
